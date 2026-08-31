@@ -4,17 +4,17 @@
 
 ## 📌 Descripción
 
-**VetCare** es un proyecto de software orientado a la gestión de los procesos de una clínica veterinaria. El sistema busca organizar y digitalizar la información y las operaciones principales relacionadas con pacientes veterinarios, propietarios, personal, citas y demás procesos que se definan durante el desarrollo del proyecto.
+**VetCare** es un proyecto de software orientado a la gestión de los procesos de una clínica veterinaria. El sistema busca organizar y digitalizar la información y las operaciones principales relacionadas con pacientes veterinarios, propietarios, personal, citas y demás procesos definidos durante el desarrollo del proyecto.
 
-Este repositorio documenta la evolución del proyecto a través de **entregas parciales**, incorporando progresivamente los artefactos de análisis, diseño, implementación y validación.
+Este repositorio documenta la evolución del proyecto mediante **entregas parciales**, incorporando progresivamente artefactos de análisis, diseño, modelado, prototipado e implementación.
 
 ---
 
 ## 🎯 Objetivo del proyecto
 
-Diseñar y desarrollar una solución de software que permita gestionar de manera organizada los procesos de una clínica veterinaria, aplicando principios, técnicas y artefactos propios de la **Ingeniería de Software**.
+Diseñar y desarrollar una solución de software para apoyar la gestión de los procesos de una clínica veterinaria, aplicando principios, técnicas y artefactos propios de la **Ingeniería de Software**.
 
-Los requisitos, alcance y funcionalidades se irán refinando conforme avance cada entrega.
+El alcance y las funcionalidades se irán refinando conforme avance el proyecto y se definan nuevas entregas.
 
 ---
 
@@ -23,16 +23,22 @@ Los requisitos, alcance y funcionalidades se irán refinando conforme avance cad
 **Fase:** Entregas parciales  
 **Rama:** `EntregasParciales`
 
-### Artefactos disponibles actualmente
+Actualmente el repositorio se encuentra organizado en dos bloques principales: **documentación y artefactos de ingeniería** dentro de `docs/`, y **prototipo** dentro de `Proto/`. La estructura actual incluye diagramas de casos de uso, diagramas de secuencia, diagrama de clases y modelos relacionados con la base de datos. fileciteturn3file0L2-L10
+
+### Artefactos disponibles
 
 | Artefacto | Ubicación | Estado |
 |---|---|---|
-| Diagramas de casos de uso | [`DiagramasCasosDeUso/`](./DiagramasCasosDeUso/) | ✅ Disponible |
-| Diagramas de secuencia | [`Secuencia/`](./Secuencia/) | ✅ Disponible |
-| Documento del proyecto | [`VetCare.pdf`](./VetCare.pdf) | ✅ Disponible |
-| Prototipo / interfaz | [`vetcare.html`](./vetcare.html) | ✅ Disponible |
+| Diagramas de casos de uso | [`docs/DiagramasCasosDeUso/`](./docs/DiagramasCasosDeUso/) | ✅ Disponible |
+| Diagramas de secuencia | [`docs/Secuencia/`](./docs/Secuencia/) | ✅ Disponible |
+| Diagrama de clases | [`docs/ClassDiagram/`](./docs/ClassDiagram/) | ✅ Disponible |
+| Modelos de base de datos | [`docs/DB/`](./docs/DB/) | ✅ Disponible |
+| Documento consolidado | [`docs/VetCare.pdf`](./docs/VetCare.pdf) | ✅ Disponible |
+| Prototipo | [`Proto/vetcare.html`](./Proto/vetcare.html) | ✅ Disponible |
 
-> Esta sección se actualizará con cada nueva entrega para reflejar el estado real del proyecto.
+Los diagramas de casos de uso actualmente incluyen vistas para **Administrador, Cliente, Veterinario y una vista general del sistema**. fileciteturn8file0L2-L10
+
+El repositorio también cuenta con un **diagrama de clases** y dos representaciones relacionadas con la base de datos. fileciteturn6file0L2-L10 fileciteturn7file0L2-L10
 
 ---
 
@@ -56,8 +62,10 @@ A medida que avance el proyecto, esta sección concentrará los principales arte
 
 - Requerimientos funcionales y no funcionales.
 - Historias de usuario y/o especificación de casos de uso.
-- Diagramas UML.
-- Modelos de interacción y comportamiento.
+- Diagramas de casos de uso.
+- Diagramas de secuencia.
+- Diagrama de clases.
+- Modelos de base de datos.
 - Arquitectura y diseño del sistema.
 - Prototipos e interfaces.
 - Implementación.
@@ -66,31 +74,36 @@ A medida que avance el proyecto, esta sección concentrará los principales arte
 
 ---
 
-## 📁 Estructura del repositorio
+## 📁 Estructura actual del repositorio
 
 ```text
 VetCare/
-├── DiagramasCasosDeUso/   # Diagramas relacionados con casos de uso
-├── Secuencia/              # Diagramas de secuencia
-├── VetCare.pdf             # Documento consolidado del proyecto
-├── vetcare.html            # Prototipo / interfaz actual
-└── README.md               # Documentación general y seguimiento
+├── Proto/
+│   └── vetcare.html             # Prototipo / interfaz
+│
+├── docs/
+│   ├── ClassDiagram/
+│   │   └── VetcareDC.png        # Diagrama de clases
+│   │
+│   ├── DB/
+│   │   ├── DB.png               # Modelo de base de datos
+│   │   └── VetCareDB.png        # Modelo de base de datos
+│   │
+│   ├── DiagramasCasosDeUso/
+│   │   ├── Admin.jpeg
+│   │   ├── Cliente.jpeg
+│   │   ├── Full.jpeg
+│   │   └── Veterinario.jpeg
+│   │
+│   ├── Secuencia/
+│   │   └── *.png                # Diagramas de secuencia
+│   │
+│   └── VetCare.pdf               # Documento consolidado
+│
+└── README.md                     # Documentación general
 ```
 
-La estructura se actualizará conforme se incorporen nuevos artefactos.
-
----
-
-## 🛠️ Tecnologías y herramientas
-
-Las herramientas utilizadas podrán variar según la fase del proyecto. Actualmente el repositorio incluye artefactos en formato web, documentos y diagramas.
-
-**Herramientas de apoyo previstas:**
-
-- Git y GitHub para control de versiones.
-- HTML/CSS/JavaScript para prototipado e interfaz, cuando corresponda.
-- UML y herramientas de diagramación para el modelado.
-- Herramientas de documentación para la generación de entregables.
+La estructura se actualizará conforme se incorporen nuevos artefactos y entregas. La ubicación actual de los principales directorios fue verificada directamente en la rama `EntregasParciales`. fileciteturn10file0L2-L10
 
 ---
 
@@ -107,6 +120,8 @@ Modelado
     ↓
 Diseño
     ↓
+Prototipado
+    ↓
 Implementación
     ↓
 Pruebas
@@ -116,7 +131,17 @@ Documentación
 Nueva entrega
 ```
 
-Cada entrega podrá ampliar, corregir o reemplazar artefactos anteriores sin perder la trazabilidad de la evolución del proyecto.
+Cada entrega podrá ampliar, corregir o reemplazar artefactos anteriores, manteniendo la trazabilidad de la evolución del proyecto mediante Git.
+
+---
+
+## 🛠️ Tecnologías y herramientas
+
+- **Git / GitHub** — control de versiones y gestión del repositorio.
+- **UML** — modelado de casos de uso, clases y secuencias.
+- **HTML** — desarrollo del prototipo actual.
+- **Herramientas de diagramación** — elaboración de los modelos del sistema.
+- **Herramientas de documentación** — generación y consolidación de entregables.
 
 ---
 
@@ -128,8 +153,13 @@ Cada entrega podrá ampliar, corregir o reemplazar artefactos anteriores sin per
 - Primeros artefactos del proyecto.
 
 ### Entrega 2
-- Incorporación y/o actualización de modelos del sistema.
-- Evolución de los diagramas y del prototipo.
+- Evolución de los modelos del sistema.
+- Incorporación de diagramas de casos de uso.
+- Incorporación de diagramas de secuencia.
+- Incorporación del diagrama de clases.
+- Incorporación de modelos de base de datos.
+- Organización de los artefactos dentro de `docs/`.
+- Organización del prototipo dentro de `Proto/`.
 
 ### Entrega 3
 - Pendiente de actualización.
@@ -157,13 +187,13 @@ Cada nueva entrega deberá actualizar, como mínimo:
 3. Los **artefactos disponibles**.
 4. La **estructura del repositorio**, cuando cambie.
 5. El **registro de cambios** correspondiente.
-6. Las **tecnologías/herramientas** utilizadas, si se incorporan nuevas.
+6. Las **tecnologías y herramientas** utilizadas, si se incorporan nuevas.
 
 ---
 
 ## 📄 Documentación
 
-La documentación consolidada disponible actualmente se encuentra en [`VetCare.pdf`](./VetCare.pdf).
+La documentación consolidada disponible actualmente se encuentra en [`docs/VetCare.pdf`](./docs/VetCare.pdf).
 
 ---
 
