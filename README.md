@@ -23,7 +23,7 @@ El alcance y las funcionalidades se irán refinando conforme avance el proyecto 
 **Fase:** Entregas parciales  
 **Rama:** `EntregasParciales`
 
-Actualmente el repositorio se encuentra organizado en dos bloques principales: **documentación y artefactos de ingeniería** dentro de `docs/`, y **prototipo** dentro de `Proto/`. La estructura actual incluye diagramas de casos de uso, diagramas de secuencia, diagrama de clases y modelos relacionados con la base de datos. fileciteturn3file0L2-L10
+Actualmente el repositorio se encuentra organizado en dos bloques principales: **documentación y artefactos de ingeniería** dentro de `docs/`, y **prototipo** dentro de `Proto/`.
 
 ### Artefactos disponibles
 
@@ -31,14 +31,15 @@ Actualmente el repositorio se encuentra organizado en dos bloques principales: *
 |---|---|---|
 | Diagramas de casos de uso | [`docs/DiagramasCasosDeUso/`](./docs/DiagramasCasosDeUso/) | ✅ Disponible |
 | Diagramas de secuencia | [`docs/Secuencia/`](./docs/Secuencia/) | ✅ Disponible |
+| Diagramas de flujo | [`docs/DiagramasDeFlujo/`](./docs/DiagramasDeFlujo/) | 🆕 Incorporado |
 | Diagrama de clases | [`docs/ClassDiagram/`](./docs/ClassDiagram/) | ✅ Disponible |
 | Modelos de base de datos | [`docs/DB/`](./docs/DB/) | ✅ Disponible |
 | Documento consolidado | [`docs/VetCare.pdf`](./docs/VetCare.pdf) | ✅ Disponible |
 | Prototipo | [`Proto/vetcare.html`](./Proto/vetcare.html) | ✅ Disponible |
 
-Los diagramas de casos de uso actualmente incluyen vistas para **Administrador, Cliente, Veterinario y una vista general del sistema**. fileciteturn8file0L2-L10
+### Diagramas de flujo
 
-El repositorio también cuenta con un **diagrama de clases** y dos representaciones relacionadas con la base de datos. fileciteturn6file0L2-L10 fileciteturn7file0L2-L10
+Los diagramas de flujo se incorporan como parte de los artefactos de modelado del sistema y permiten representar gráficamente la secuencia y lógica de los procesos definidos para VetCare. Esta sección se ampliará conforme se agreguen nuevos flujos.
 
 ---
 
@@ -52,18 +53,15 @@ El repositorio también cuenta con un **diagrama de clases** y dos representacio
 | **Entrega 4** | Implementación / construcción | ⏳ Pendiente |
 | **Entrega final** | Integración, pruebas, documentación y presentación | ⏳ Pendiente |
 
-> Las entregas se ajustarán conforme al cronograma y a los requerimientos definidos para la asignatura.
-
 ---
 
 ## 🧩 Artefactos de Ingeniería de Software
-
-A medida que avance el proyecto, esta sección concentrará los principales artefactos desarrollados:
 
 - Requerimientos funcionales y no funcionales.
 - Historias de usuario y/o especificación de casos de uso.
 - Diagramas de casos de uso.
 - Diagramas de secuencia.
+- Diagramas de flujo.
 - Diagrama de clases.
 - Modelos de base de datos.
 - Arquitectura y diseño del sistema.
@@ -95,6 +93,9 @@ VetCare/
 │   │   ├── Full.jpeg
 │   │   └── Veterinario.jpeg
 │   │
+│   ├── DiagramasDeFlujo/
+│   │   └── *.png                # Diagramas de flujo
+│   │
 │   ├── Secuencia/
 │   │   └── *.png                # Diagramas de secuencia
 │   │
@@ -103,13 +104,9 @@ VetCare/
 └── README.md                     # Documentación general
 ```
 
-La estructura se actualizará conforme se incorporen nuevos artefactos y entregas. La ubicación actual de los principales directorios fue verificada directamente en la rama `EntregasParciales`. fileciteturn10file0L2-L10
-
 ---
 
 ## 🔄 Flujo de trabajo del proyecto
-
-El desarrollo seguirá un enfoque incremental:
 
 ```text
 Requisitos
@@ -139,6 +136,7 @@ Cada entrega podrá ampliar, corregir o reemplazar artefactos anteriores, manten
 
 - **Git / GitHub** — control de versiones y gestión del repositorio.
 - **UML** — modelado de casos de uso, clases y secuencias.
+- **Diagramas de flujo** — representación gráfica de procesos y lógica del sistema.
 - **HTML** — desarrollo del prototipo actual.
 - **Herramientas de diagramación** — elaboración de los modelos del sistema.
 - **Herramientas de documentación** — generación y consolidación de entregables.
@@ -158,6 +156,7 @@ Cada entrega podrá ampliar, corregir o reemplazar artefactos anteriores, manten
 - Incorporación de diagramas de secuencia.
 - Incorporación del diagrama de clases.
 - Incorporación de modelos de base de datos.
+- Incorporación de diagramas de flujo.
 - Organización de los artefactos dentro de `docs/`.
 - Organización del prototipo dentro de `Proto/`.
 
