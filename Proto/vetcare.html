@@ -1,0 +1,1709 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VetCare · Sistema de gestión veterinaria</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   VETCARE — DESIGN SYSTEM
+   ============================================================ */
+:root{
+  --color-bg:#F5FAF8;
+  --color-surface:#FFFFFF;
+  --color-surface-muted:#EEF5F1;
+  --color-primary:#2F6F62;
+  --color-primary-dark:#1F5347;
+  --color-primary-light:#E3F1EB;
+  --color-secondary:#3B6E8F;
+  --color-secondary-light:#E6F0F5;
+  --color-accent:#E3982E;
+  --color-accent-light:#FBF0DA;
+  --color-danger:#B8483A;
+  --color-danger-light:#FBEAE7;
+  --color-success:#2F8F5B;
+  --color-success-light:#E4F5EC;
+  --color-text:#16231E;
+  --color-text-muted:#5C6D67;
+  --color-text-soft:#8D9B96;
+  --color-border:#DEE8E2;
+  --radius-sm:8px;
+  --radius-md:14px;
+  --radius-lg:22px;
+  --shadow-sm:0 1px 2px rgba(18,32,27,.06);
+  --shadow-md:0 6px 20px rgba(18,32,27,.08);
+  --font-ui:'Manrope',system-ui,sans-serif;
+  --font-mono:'JetBrains Mono',monospace;
+  --sidebar-w:248px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;}
+body{font-family:var(--font-ui);background:var(--color-bg);color:var(--color-text);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased;}
+img{max-width:100%;display:block;}
+button{font-family:inherit;cursor:pointer;background:none;border:none;color:inherit;}
+a{color:inherit;text-decoration:none;}
+ul{list-style:none;}
+input,select,textarea{font-family:inherit;font-size:14px;color:var(--color-text);}
+.hidden{display:none !important;}
+h1,h2,h3,h4{font-weight:800;letter-spacing:-0.01em;color:var(--color-text);}
+::selection{background:var(--color-primary-light);}
+::-webkit-scrollbar{width:8px;height:8px;}
+::-webkit-scrollbar-thumb{background:#CBD9D3;border-radius:8px;}
+
+/* ---------- Layout scaffolding ---------- */
+#app-shell{display:none;min-height:100vh;}
+#app-shell.active{display:flex;}
+
+.sidebar{
+  width:var(--sidebar-w);flex-shrink:0;background:var(--color-surface);
+  border-right:1px solid var(--color-border);display:flex;flex-direction:column;
+  height:100vh;position:sticky;top:0;
+}
+.sidebar-brand{display:flex;align-items:center;gap:10px;padding:22px 20px 18px;border-bottom:1px solid var(--color-border);}
+.sidebar-brand .mark{width:36px;height:36px;border-radius:11px;background:var(--color-primary);display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px;}
+.sidebar-brand .word{font-weight:800;font-size:18px;letter-spacing:-0.02em;}
+.sidebar-brand .word span{color:var(--color-primary);}
+.sidebar-role{font-size:11px;color:var(--color-text-soft);padding:12px 20px 4px;text-transform:uppercase;letter-spacing:.06em;font-weight:700;}
+.sidebar-nav{flex:1;overflow-y:auto;padding:4px 12px;}
+.nav-item{display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:10px;font-weight:600;font-size:14px;color:var(--color-text-muted);margin-bottom:2px;transition:background .12s,color .12s;}
+.nav-item .ic{width:18px;text-align:center;font-size:15px;}
+.nav-item:hover{background:var(--color-surface-muted);color:var(--color-text);}
+.nav-item.active{background:var(--color-primary-light);color:var(--color-primary-dark);}
+.sidebar-footer{padding:14px 20px 18px;border-top:1px solid var(--color-border);}
+.sidebar-footer a{font-size:12.5px;color:var(--color-text-soft);font-weight:600;}
+.sidebar-footer a:hover{color:var(--color-primary);}
+
+.main-col{flex:1;min-width:0;display:flex;flex-direction:column;}
+.topbar{
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+  padding:14px 28px;background:var(--color-surface);border-bottom:1px solid var(--color-border);
+  position:sticky;top:0;z-index:20;
+}
+.topbar-left{display:flex;align-items:center;gap:14px;min-width:0;}
+.topbar-title{font-size:17px;font-weight:800;letter-spacing:-0.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.hamburger{display:none;width:36px;height:36px;border-radius:9px;align-items:center;justify-content:center;font-size:18px;background:var(--color-surface-muted);}
+.topbar-right{display:flex;align-items:center;gap:10px;flex-shrink:0;}
+.icon-btn{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;background:var(--color-surface-muted);font-size:15px;position:relative;}
+.icon-btn .dot{position:absolute;top:6px;right:6px;width:7px;height:7px;border-radius:50%;background:var(--color-danger);border:2px solid var(--color-surface);}
+.profile-chip{display:flex;align-items:center;gap:9px;padding:5px 10px 5px 5px;border-radius:30px;background:var(--color-surface-muted);}
+.profile-chip .av{width:28px;height:28px;border-radius:50%;background:var(--color-primary);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;}
+.profile-chip .nm{font-size:13px;font-weight:700;display:none;}
+@media(min-width:640px){.profile-chip .nm{display:inline;}}
+.role-switch{font-size:11.5px;font-weight:700;color:var(--color-secondary);background:var(--color-secondary-light);padding:6px 10px;border-radius:20px;white-space:nowrap;}
+
+.content{flex:1;padding:26px 28px 60px;max-width:1240px;width:100%;margin:0 auto;}
+.view{display:none;}
+.view.active{display:block;animation:fadeIn .18s ease;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:none;}}
+
+.page-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:20px;}
+.page-head h1{font-size:22px;}
+.page-head p{color:var(--color-text-muted);font-size:13.5px;margin-top:3px;}
+.crumb{font-size:12.5px;color:var(--color-text-soft);font-weight:600;margin-bottom:6px;display:flex;align-items:center;gap:6px;}
+.crumb button{color:var(--color-primary);font-weight:700;}
+
+/* Bottom nav (mobile) */
+.bottom-nav{display:none;position:fixed;bottom:0;left:0;right:0;background:var(--color-surface);border-top:1px solid var(--color-border);z-index:30;padding:6px 4px 8px;}
+.bottom-nav .bn-row{display:flex;justify-content:space-around;}
+.bn-item{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:10.5px;font-weight:700;color:var(--color-text-soft);padding:4px 6px;border-radius:10px;flex:1;}
+.bn-item .ic{font-size:18px;}
+.bn-item.active{color:var(--color-primary);}
+
+/* Drawer (mobile full nav) */
+.drawer-overlay{display:none;position:fixed;inset:0;background:rgba(15,25,21,.4);z-index:50;}
+.drawer-overlay.open{display:block;}
+.drawer{position:fixed;top:0;left:0;bottom:0;width:78%;max-width:300px;background:var(--color-surface);z-index:51;transform:translateX(-100%);transition:transform .2s ease;display:flex;flex-direction:column;}
+.drawer.open{transform:translateX(0);}
+.drawer-head{display:flex;justify-content:space-between;align-items:center;padding:18px 18px;border-bottom:1px solid var(--color-border);}
+
+@media(max-width:1023px){
+  .sidebar{display:none;}
+  .hamburger{display:flex;}
+  .bottom-nav{display:block;}
+  .content{padding:18px 16px 90px;}
+  .drawer{display:flex;}
+}
+@media(min-width:1024px){.drawer-overlay,.drawer{display:none !important;}}
+
+/* ---------- Buttons ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:10px 18px;border-radius:10px;font-weight:700;font-size:13.5px;transition:.12s;white-space:nowrap;border:1px solid transparent;}
+.btn-primary{background:var(--color-primary);color:#fff;}
+.btn-primary:hover{background:var(--color-primary-dark);}
+.btn-secondary{background:var(--color-secondary);color:#fff;}
+.btn-secondary:hover{opacity:.9;}
+.btn-outline{background:var(--color-surface);border-color:var(--color-border);color:var(--color-text);}
+.btn-outline:hover{border-color:var(--color-primary);color:var(--color-primary);}
+.btn-danger{background:var(--color-danger);color:#fff;}
+.btn-danger:hover{opacity:.9;}
+.btn-ghost{background:transparent;color:var(--color-text-muted);}
+.btn-ghost:hover{background:var(--color-surface-muted);color:var(--color-text);}
+.btn-sm{padding:7px 13px;font-size:12.5px;border-radius:8px;}
+.btn-block{width:100%;}
+.btn:disabled{opacity:.5;cursor:not-allowed;}
+.btn-icon-only{width:36px;height:36px;padding:0;border-radius:9px;}
+
+/* ---------- Forms ---------- */
+.field{margin-bottom:16px;}
+.field label{display:block;font-size:13px;font-weight:700;margin-bottom:6px;color:var(--color-text);}
+.field .hint{font-size:11.5px;color:var(--color-text-soft);margin-top:5px;}
+.field .err{font-size:11.5px;color:var(--color-danger);margin-top:5px;font-weight:600;}
+.input,.select,.textarea{width:100%;padding:10px 12px;border:1.5px solid var(--color-border);border-radius:10px;background:var(--color-surface);outline:none;transition:.12s;}
+.input:focus,.select:focus,.textarea:focus{border-color:var(--color-primary);box-shadow:0 0 0 3px var(--color-primary-light);}
+.input.invalid,.select.invalid{border-color:var(--color-danger);background:var(--color-danger-light);}
+.textarea{resize:vertical;min-height:80px;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+@media(max-width:560px){.form-row{grid-template-columns:1fr;}}
+.file-drop{border:1.5px dashed var(--color-border);border-radius:12px;padding:22px;text-align:center;color:var(--color-text-soft);font-size:13px;font-weight:600;background:var(--color-surface-muted);}
+.segmented{display:flex;background:var(--color-surface-muted);border-radius:10px;padding:3px;gap:3px;}
+.segmented button{flex:1;padding:8px 10px;border-radius:8px;font-size:13px;font-weight:700;color:var(--color-text-muted);}
+.segmented button.active{background:var(--color-surface);color:var(--color-primary);box-shadow:var(--shadow-sm);}
+
+/* ---------- Cards ---------- */
+.card{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:18px;}
+.card-title{font-size:14px;font-weight:800;margin-bottom:2px;}
+.card-sub{font-size:12px;color:var(--color-text-soft);margin-bottom:14px;}
+.grid{display:grid;gap:16px;}
+.grid-2{grid-template-columns:1fr 1fr;}
+.grid-3{grid-template-columns:repeat(3,1fr);}
+.grid-4{grid-template-columns:repeat(4,1fr);}
+@media(max-width:900px){.grid-3{grid-template-columns:1fr 1fr;}.grid-4{grid-template-columns:1fr 1fr;}}
+@media(max-width:640px){.grid-2,.grid-3,.grid-4{grid-template-columns:1fr;}}
+
+/* Stat card */
+.stat-card{display:flex;flex-direction:column;gap:6px;}
+.stat-card .lbl{font-size:12px;color:var(--color-text-soft);font-weight:700;text-transform:uppercase;letter-spacing:.04em;}
+.stat-card .val{font-size:24px;font-weight:800;}
+.stat-card .sub{font-size:12px;color:var(--color-text-muted);}
+
+/* ---------- Avatars / pet rings ---------- */
+.pet-avatar{border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;border:2.5px solid;}
+.pet-avatar.dog{background:var(--color-primary-light);border-color:var(--color-primary);}
+.pet-avatar.cat{background:var(--color-secondary-light);border-color:var(--color-secondary);}
+.pet-avatar.other{background:var(--color-accent-light);border-color:var(--color-accent);}
+
+/* ---------- Badges ---------- */
+.badge{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:20px;font-size:11.5px;font-weight:700;white-space:nowrap;}
+.badge-dot{width:6px;height:6px;border-radius:50%;}
+.badge-success{background:var(--color-success-light);color:var(--color-success);}
+.badge-success .badge-dot{background:var(--color-success);}
+.badge-warning{background:var(--color-accent-light);color:#96650F;}
+.badge-warning .badge-dot{background:var(--color-accent);}
+.badge-danger{background:var(--color-danger-light);color:var(--color-danger);}
+.badge-danger .badge-dot{background:var(--color-danger);}
+.badge-info{background:var(--color-secondary-light);color:var(--color-secondary);}
+.badge-info .badge-dot{background:var(--color-secondary);}
+.badge-neutral{background:var(--color-surface-muted);color:var(--color-text-muted);}
+.badge-neutral .badge-dot{background:var(--color-text-soft);}
+
+/* ---------- Tables ---------- */
+.table-wrap{overflow-x:auto;border:1px solid var(--color-border);border-radius:var(--radius-md);}
+table{width:100%;border-collapse:collapse;min-width:560px;}
+th{text-align:left;font-size:11.5px;text-transform:uppercase;letter-spacing:.04em;color:var(--color-text-soft);font-weight:700;padding:12px 16px;background:var(--color-surface-muted);border-bottom:1px solid var(--color-border);}
+td{padding:13px 16px;font-size:13.5px;border-bottom:1px solid var(--color-border);vertical-align:middle;}
+tr:last-child td{border-bottom:none;}
+tr.tr-hover:hover{background:var(--color-surface-muted);}
+.mono{font-family:var(--font-mono);font-size:12.5px;color:var(--color-text-muted);}
+
+/* ---------- Alerts ---------- */
+.alert{display:flex;gap:11px;align-items:flex-start;padding:14px 16px;border-radius:var(--radius-sm);border:1px solid;font-size:13px;}
+.alert .ic{font-size:16px;flex-shrink:0;}
+.alert-info{background:var(--color-secondary-light);border-color:#C7DDE9;color:#25506B;}
+.alert-warning{background:var(--color-accent-light);border-color:#F0D8A8;color:#7A5510;}
+.alert-danger{background:var(--color-danger-light);border-color:#F0C7C0;color:#8F3A2E;}
+.alert-success{background:var(--color-success-light);border-color:#C3E6D3;color:#20623F;}
+.alert b{font-weight:800;}
+
+/* ---------- Empty / loading / error states ---------- */
+.empty-state{text-align:center;padding:46px 20px;color:var(--color-text-soft);}
+.empty-state .ic{font-size:34px;margin-bottom:10px;}
+.empty-state h4{color:var(--color-text);font-size:14.5px;margin-bottom:5px;}
+.empty-state p{font-size:12.5px;max-width:320px;margin:0 auto 14px;}
+
+.skeleton{background:linear-gradient(90deg,var(--color-surface-muted) 25%,#E4EEE8 37%,var(--color-surface-muted) 63%);background-size:400% 100%;animation:shimmer 1.4s infinite;border-radius:8px;}
+@keyframes shimmer{0%{background-position:100% 0}100%{background-position:0 0}}
+.skel-line{height:12px;margin-bottom:8px;}
+.skel-card{height:96px;border-radius:var(--radius-md);}
+
+/* ---------- Modal ---------- */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(15,25,21,.45);z-index:80;align-items:center;justify-content:center;padding:20px;}
+.modal-overlay.open{display:flex;}
+.modal{background:var(--color-surface);border-radius:var(--radius-lg);max-width:460px;width:100%;max-height:88vh;overflow-y:auto;padding:26px;box-shadow:var(--shadow-md);}
+.modal-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;gap:10px;}
+.modal-head h3{font-size:17px;}
+.modal-actions{display:flex;gap:10px;margin-top:20px;justify-content:flex-end;}
+
+/* ---------- Toast ---------- */
+#toast-container{position:fixed;top:18px;right:18px;z-index:100;display:flex;flex-direction:column;gap:10px;}
+.toast{background:var(--color-text);color:#fff;padding:12px 16px;border-radius:10px;font-size:13px;font-weight:600;box-shadow:var(--shadow-md);display:flex;align-items:center;gap:9px;min-width:220px;animation:slideIn .18s ease;}
+.toast.success{background:var(--color-success);}
+.toast.danger{background:var(--color-danger);}
+@keyframes slideIn{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:none}}
+
+/* ---------- Misc ---------- */
+.section-title{font-size:15.5px;font-weight:800;margin:28px 0 12px;}
+.section-title:first-child{margin-top:0;}
+.divider{height:1px;background:var(--color-border);margin:18px 0;}
+.chip-row{display:flex;flex-wrap:wrap;gap:8px;}
+.tag-chip{padding:6px 12px;border-radius:20px;background:var(--color-surface-muted);font-size:12.5px;font-weight:700;color:var(--color-text-muted);}
+.tag-chip.active{background:var(--color-primary);color:#fff;}
+.quick-link{display:flex;flex-direction:column;align-items:center;gap:8px;padding:16px 8px;border-radius:var(--radius-md);border:1px solid var(--color-border);background:var(--color-surface);text-align:center;transition:.12s;}
+.quick-link:hover{border-color:var(--color-primary);background:var(--color-primary-light);}
+.quick-link .ic{width:38px;height:38px;border-radius:11px;background:var(--color-primary-light);display:flex;align-items:center;justify-content:center;font-size:18px;}
+.quick-link span{font-size:12px;font-weight:700;}
+.timeline{position:relative;padding-left:26px;}
+.timeline:before{content:'';position:absolute;left:8px;top:6px;bottom:6px;width:2px;background:var(--color-border);}
+.timeline-item{position:relative;padding-bottom:22px;}
+.timeline-item:last-child{padding-bottom:0;}
+.timeline-dot{position:absolute;left:-26px;top:4px;width:16px;height:16px;border-radius:50%;background:var(--color-primary);border:3px solid var(--color-primary-light);}
+.list-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 0;border-bottom:1px solid var(--color-border);}
+.list-row:last-child{border-bottom:none;}
+.check-circle{width:20px;height:20px;border-radius:50%;border:2px solid var(--color-border);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;}
+.check-circle.done{background:var(--color-success);border-color:var(--color-success);}
+.progress-bar{height:8px;border-radius:6px;background:var(--color-surface-muted);overflow:hidden;}
+.progress-bar > div{height:100%;background:var(--color-primary);}
+.avatar-round{width:34px;height:34px;border-radius:50%;background:var(--color-secondary-light);color:var(--color-secondary);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;flex-shrink:0;}
+.kpi-row{display:flex;gap:10px;flex-wrap:wrap;}
+.link-btn{color:var(--color-primary);font-weight:700;font-size:13px;}
+.link-btn:hover{text-decoration:underline;}
+.calendar-mini{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;text-align:center;}
+.calendar-mini .dow{font-size:10.5px;font-weight:800;color:var(--color-text-soft);padding-bottom:4px;}
+.calendar-mini .day{padding:8px 0;border-radius:8px;font-size:12.5px;font-weight:700;color:var(--color-text-muted);}
+.calendar-mini .day.today{background:var(--color-primary);color:#fff;}
+.calendar-mini .day.has-appt{background:var(--color-primary-light);color:var(--color-primary-dark);}
+.calendar-mini .day.muted{color:var(--color-text-soft);opacity:.4;}
+</style>
+</head>
+<body>
+
+<div id="toast-container"></div>
+
+<!-- =============================================================
+     AUTH SCREENS
+     ============================================================= -->
+<section class="view active auth-view" id="view-login">
+  <div class="auth-screen">
+    <div class="auth-card">
+      <div class="auth-logo"><div class="mark">🐾</div><div class="word">Vet<span>Care</span></div></div>
+      <h2 style="font-size:19px;margin-bottom:4px;">Inicia sesión</h2>
+      <p style="font-size:13px;color:var(--color-text-muted);margin-bottom:20px;">Ingresa a tu cuenta para continuar</p>
+
+      <div class="segmented" id="login-role-switch" style="margin-bottom:18px;">
+        <button class="active" data-role="owner" onclick="setLoginRole('owner')">Propietario</button>
+        <button data-role="vet" onclick="setLoginRole('vet')">Personal veterinario</button>
+      </div>
+
+      <form onsubmit="return handleLogin(event)">
+        <div class="field">
+          <label>Correo electrónico</label>
+          <input class="input" type="email" id="login-email" placeholder="tucorreo@ejemplo.com" value="camila.restrepo@email.com" required>
+        </div>
+        <div class="field">
+          <label>Contraseña</label>
+          <input class="input" type="password" id="login-password" placeholder="••••••••" value="••••••••" required>
+        </div>
+        <div style="display:flex;justify-content:flex-end;margin-bottom:18px;">
+          <button type="button" class="link-btn" style="font-size:12.5px;" onclick="showView('recover')">¿Olvidaste tu contraseña?</button>
+        </div>
+        <button class="btn btn-primary btn-block" type="submit">Iniciar sesión</button>
+      </form>
+      <p style="text-align:center;font-size:13px;color:var(--color-text-muted);margin-top:18px;">
+        ¿No tienes cuenta? <button class="link-btn" onclick="showView('register')">Regístrate</button>
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="view auth-view" id="view-register">
+  <div class="auth-screen">
+    <div class="auth-card">
+      <div class="auth-logo"><div class="mark">🐾</div><div class="word">Vet<span>Care</span></div></div>
+      <h2 style="font-size:19px;margin-bottom:4px;">Crea tu cuenta</h2>
+      <p style="font-size:13px;color:var(--color-text-muted);margin-bottom:20px;">Regístrate como propietario para gestionar a tus mascotas</p>
+      <form onsubmit="event.preventDefault(); showToast('Cuenta creada correctamente','success'); showView('login');">
+        <div class="field"><label>Nombre completo</label><input class="input" placeholder="Ej. Camila Restrepo" required></div>
+        <div class="field"><label>Correo electrónico</label><input class="input" type="email" placeholder="tucorreo@ejemplo.com" required></div>
+        <div class="field"><label>Teléfono</label><input class="input" type="tel" placeholder="+57 300 000 0000" required></div>
+        <div class="form-row">
+          <div class="field"><label>Contraseña</label><input class="input" type="password" placeholder="Mínimo 8 caracteres" required></div>
+          <div class="field"><label>Confirmar contraseña</label><input class="input" type="password" placeholder="Repite tu contraseña" required></div>
+        </div>
+        <button class="btn btn-primary btn-block" type="submit">Crear cuenta</button>
+      </form>
+      <p style="text-align:center;font-size:13px;color:var(--color-text-muted);margin-top:18px;">
+        ¿Ya tienes cuenta? <button class="link-btn" onclick="showView('login')">Inicia sesión</button>
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="view auth-view" id="view-recover">
+  <div class="auth-screen">
+    <div class="auth-card" id="recover-card">
+      <div class="auth-logo"><div class="mark">🐾</div><div class="word">Vet<span>Care</span></div></div>
+      <h2 style="font-size:19px;margin-bottom:4px;">Recupera tu contraseña</h2>
+      <p style="font-size:13px;color:var(--color-text-muted);margin-bottom:20px;">Te enviaremos un enlace para restablecerla</p>
+      <form onsubmit="return handleRecover(event)">
+        <div class="field"><label>Correo electrónico</label><input class="input" type="email" placeholder="tucorreo@ejemplo.com" required></div>
+        <button class="btn btn-primary btn-block" type="submit">Enviar enlace</button>
+      </form>
+      <p style="text-align:center;font-size:13px;color:var(--color-text-muted);margin-top:18px;">
+        <button class="link-btn" onclick="showView('login')">← Volver a inicio de sesión</button>
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- =============================================================
+     APP SHELL
+     ============================================================= -->
+<div id="app-shell">
+  <div class="drawer-overlay" id="drawer-overlay" onclick="closeDrawer()"></div>
+  <aside class="drawer" id="drawer">
+    <div class="drawer-head">
+      <div class="auth-logo" style="margin:0;"><div class="mark">🐾</div><div class="word">Vet<span>Care</span></div></div>
+      <button class="icon-btn" onclick="closeDrawer()">✕</button>
+    </div>
+    <nav class="sidebar-nav" id="drawer-nav"></nav>
+  </aside>
+
+  <aside class="sidebar">
+    <div class="sidebar-brand"><div class="mark">🐾</div><div class="word">Vet<span>Care</span></div></div>
+    <div class="sidebar-role" id="sidebar-role-label">Portal del propietario</div>
+    <nav class="sidebar-nav" id="sidebar-nav"></nav>
+    <div class="sidebar-footer">
+      <a href="#" onclick="showView('design-system');return false;">Guía de estilo</a><br><br>
+      <a href="#" onclick="logout();return false;">Cerrar sesión</a>
+    </div>
+  </aside>
+
+  <div class="main-col">
+    <header class="topbar">
+      <div class="topbar-left">
+        <button class="hamburger" onclick="openDrawer()">☰</button>
+        <div class="topbar-title" id="topbar-title">Inicio</div>
+      </div>
+      <div class="topbar-right">
+        <span class="role-switch" id="demo-role-switch" onclick="toggleDemoRole()" style="cursor:pointer;" title="Solo para esta demostración">⇄ Cambiar de portal (demo)</span>
+        <button class="icon-btn" title="Notificaciones">🔔<span class="dot"></span></button>
+        <div class="profile-chip">
+          <div class="av" id="topbar-avatar">CR</div>
+          <span class="nm" id="topbar-username">Camila Restrepo</span>
+        </div>
+      </div>
+    </header>
+
+    <main class="content" id="content-root">
+
+      <!-- ============================= OWNER: DASHBOARD ============================= -->
+      <section class="view" id="view-owner-dashboard">
+        <div class="page-head">
+          <div>
+            <h1 id="dash-greeting">Hola, Camila 👋</h1>
+            <p>Este es el resumen de tus mascotas hoy, 9 de agosto de 2026</p>
+          </div>
+          <div class="field" style="margin:0;min-width:200px;">
+            <select class="select" id="dash-pet-select" onchange="onDashPetChange(this.value)"></select>
+          </div>
+        </div>
+
+        <div class="grid grid-4" style="margin-bottom:22px;">
+          <div class="card stat-card"><span class="lbl">Mascotas registradas</span><span class="val">3</span><span class="sub">Todas activas</span></div>
+          <div class="card stat-card"><span class="lbl">Próxima cita</span><span class="val">5 días</span><span class="sub">14 de agosto · 10:30 a. m.</span></div>
+          <div class="card stat-card"><span class="lbl">Vacunas al día</span><span class="val">3/5</span><span class="sub">2 requieren atención</span></div>
+          <div class="card stat-card"><span class="lbl">Medicamentos activos</span><span class="val">1</span><span class="sub">Max · L-Carnitina</span></div>
+        </div>
+
+        <div class="section-title">Accesos rápidos</div>
+        <div class="grid grid-4" style="margin-bottom:26px;">
+          <button class="quick-link" onclick="showView('owner-appointment-new')"><div class="ic">📅</div><span>Agendar cita</span></button>
+          <button class="quick-link" onclick="showView('owner-pets')"><div class="ic">🐾</div><span>Mis mascotas</span></button>
+          <button class="quick-link" onclick="showView('owner-history')"><div class="ic">📋</div><span>Historia clínica</span></button>
+          <button class="quick-link" onclick="showView('owner-emergency')"><div class="ic">🚨</div><span>Emergencias</span></button>
+        </div>
+
+        <div class="grid grid-2">
+          <div class="card">
+            <div class="card-title">Próxima cita</div>
+            <div class="card-sub">Mascota seleccionada: <span id="dash-appt-pet">Max</span></div>
+            <div id="dash-next-appt"></div>
+          </div>
+          <div class="card">
+            <div class="card-title">Próximos medicamentos</div>
+            <div class="card-sub">Tratamientos en curso</div>
+            <div id="dash-next-meds"></div>
+          </div>
+          <div class="card">
+            <div class="card-title">Próximas vacunas</div>
+            <div class="card-sub">Aplicadas y pendientes</div>
+            <div id="dash-next-vax"></div>
+          </div>
+          <div class="card">
+            <div class="card-title">Recordatorios pendientes</div>
+            <div class="card-sub">De todas tus mascotas</div>
+            <div id="dash-reminders"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================= OWNER: MIS MASCOTAS ============================= -->
+      <section class="view" id="view-owner-pets">
+        <div class="page-head">
+          <div><h1>Mis mascotas</h1><p>Gestiona la información de tus mascotas registradas</p></div>
+          <button class="btn btn-primary" onclick="showView('owner-pet-new')">+ Registrar mascota</button>
+        </div>
+        <div class="grid grid-3" id="pets-grid"></div>
+      </section>
+
+      <!-- ============================= OWNER: REGISTRAR MASCOTA ============================= -->
+      <section class="view" id="view-owner-pet-new">
+        <div class="crumb"><button onclick="showView('owner-pets')">Mis mascotas</button> / Registrar mascota</div>
+        <div class="page-head"><div><h1>Registrar mascota</h1><p>Completa la información básica de tu mascota</p></div></div>
+        <div class="card" style="max-width:680px;">
+          <form onsubmit="event.preventDefault(); showToast('Mascota registrada correctamente','success'); showView('owner-pets');">
+            <div class="form-row">
+              <div class="field"><label>Nombre</label><input class="input" placeholder="Ej. Luna" required></div>
+              <div class="field"><label>Especie</label>
+                <select class="select" required><option value="">Selecciona…</option><option>Perro</option><option>Gato</option><option>Otro</option></select>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="field"><label>Raza</label><input class="input" placeholder="Ej. Golden Retriever"></div>
+              <div class="field"><label>Sexo</label>
+                <select class="select"><option value="">Selecciona…</option><option>Hembra</option><option>Macho</option></select>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="field"><label>Fecha de nacimiento</label><input class="input" type="date"></div>
+              <div class="field"><label>Peso (kg)</label><input class="input" type="number" step="0.1" placeholder="Ej. 12.5"></div>
+            </div>
+            <div class="form-row">
+              <div class="field"><label>Color</label><input class="input" placeholder="Ej. Dorado"></div>
+              <div class="field"><label>Nº de identificación / microchip <span style="font-weight:400;color:var(--color-text-soft);">(opcional)</span></label><input class="input" placeholder="Ej. CL-0234-9981"></div>
+            </div>
+            <div class="field"><label>Alergias</label><textarea class="textarea" placeholder="Describe alergias conocidas o escribe «Ninguna conocida»"></textarea></div>
+            <div class="field"><label>Condiciones médicas relevantes</label><textarea class="textarea" placeholder="Ej. Displasia de cadera leve"></textarea></div>
+            <div class="field">
+              <label>Foto</label>
+              <div class="file-drop">📷 Arrastra una imagen o haz clic para seleccionar<br><span style="font-size:11px;">PNG o JPG · máx. 5 MB</span></div>
+            </div>
+            <div class="modal-actions" style="justify-content:flex-start;">
+              <button class="btn btn-primary" type="submit">Guardar mascota</button>
+              <button class="btn btn-outline" type="button" onclick="showView('owner-pets')">Cancelar</button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- ============================= OWNER: PERFIL DE MASCOTA ============================= -->
+      <section class="view" id="view-owner-pet-profile">
+        <div class="crumb"><button onclick="showView('owner-pets')">Mis mascotas</button> / <span id="petprofile-crumb">Perfil</span></div>
+        <div id="petprofile-header" class="card" style="display:flex;gap:18px;align-items:center;flex-wrap:wrap;margin-bottom:20px;"></div>
+        <div class="grid grid-2" style="margin-bottom:20px;">
+          <div class="card">
+            <div class="card-title">Información física</div>
+            <div id="petprofile-physical"></div>
+          </div>
+          <div class="card">
+            <div class="card-title">Salud</div>
+            <div id="petprofile-health"></div>
+          </div>
+        </div>
+        <div class="section-title">Accesos</div>
+        <div class="grid grid-4">
+          <button class="quick-link" onclick="showView('owner-history')"><div class="ic">📋</div><span>Historia clínica</span></button>
+          <button class="quick-link" onclick="showView('owner-vaccines')"><div class="ic">💉</div><span>Vacunas</span></button>
+          <button class="quick-link" onclick="showView('owner-medications')"><div class="ic">💊</div><span>Medicamentos</span></button>
+          <button class="quick-link" onclick="showView('owner-appointments')"><div class="ic">📅</div><span>Citas</span></button>
+          <button class="quick-link" onclick="showView('owner-expenses')"><div class="ic">💰</div><span>Gastos</span></button>
+          <button class="quick-link" onclick="showView('owner-care')"><div class="ic">🦴</div><span>Cuidados y rutinas</span></button>
+          <button class="quick-link" onclick="showView('owner-reminders')"><div class="ic">⏰</div><span>Recordatorios</span></button>
+        </div>
+      </section>
+
+      <!-- ============================= OWNER: HISTORIA CLINICA ============================= -->
+      <section class="view" id="view-owner-history">
+        <div class="page-head"><div><h1>Historia clínica</h1><p>Línea de tiempo de consultas de <span id="history-pet-name">todas tus mascotas</span></p></div>
+          <select class="select" id="history-pet-filter" style="max-width:220px;" onchange="renderHistory(this.value)"></select>
+        </div>
+        <div class="timeline" id="history-timeline"></div>
+      </section>
+
+      <!-- ============================= OWNER: DETALLE DE CONSULTA ============================= -->
+      <section class="view" id="view-owner-consult-detail">
+        <div class="crumb"><button onclick="showView('owner-history')">Historia clínica</button> / Detalle de consulta</div>
+        <div class="page-head"><div><h1>Detalle de consulta</h1></div></div>
+        <div class="card" id="consult-detail-body" style="max-width:760px;"></div>
+      </section>
+
+      <!-- ============================= OWNER: VACUNAS ============================= -->
+      <section class="view" id="view-owner-vaccines">
+        <div class="page-head"><div><h1>Vacunas</h1><p>Historial de vacunación y próximas dosis</p></div>
+          <select class="select" id="vax-pet-filter" style="max-width:220px;" onchange="renderVaccines(this.value)"></select>
+        </div>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Mascota</th><th>Vacuna</th><th>Fecha aplicación</th><th>Próxima fecha</th><th>Veterinario</th><th>Estado</th></tr></thead>
+          <tbody id="vax-tbody"></tbody>
+        </table></div>
+      </section>
+
+      <!-- ============================= OWNER: CITAS ============================= -->
+      <section class="view" id="view-owner-appointments">
+        <div class="page-head"><div><h1>Citas</h1><p>Consulta, agenda y gestiona las citas de tus mascotas</p></div>
+          <button class="btn btn-primary" onclick="showView('owner-appointment-new')">+ Agendar cita</button>
+        </div>
+        <div class="grid" style="grid-template-columns:280px 1fr;gap:20px;align-items:start;" id="appt-layout">
+          <div class="card">
+            <div class="card-title">Agosto 2026</div>
+            <div class="card-sub">Días con citas programadas</div>
+            <div class="calendar-mini" id="calendar-mini"></div>
+          </div>
+          <div>
+            <div class="chip-row" style="margin-bottom:14px;" id="appt-filters">
+              <button class="tag-chip active" onclick="filterAppts('todas',this)">Todas</button>
+              <button class="tag-chip" onclick="filterAppts('pendiente',this)">Pendientes</button>
+              <button class="tag-chip" onclick="filterAppts('confirmada',this)">Confirmadas</button>
+              <button class="tag-chip" onclick="filterAppts('atendida',this)">Atendidas</button>
+              <button class="tag-chip" onclick="filterAppts('cancelada',this)">Canceladas</button>
+            </div>
+            <div class="table-wrap"><table>
+              <thead><tr><th>Fecha y hora</th><th>Mascota</th><th>Veterinario</th><th>Motivo</th><th>Estado</th><th></th></tr></thead>
+              <tbody id="appt-tbody"></tbody>
+            </table></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================= OWNER: AGENDAR CITA ============================= -->
+      <section class="view" id="view-owner-appointment-new">
+        <div class="crumb"><button onclick="showView('owner-appointments')">Citas</button> / Agendar cita</div>
+        <div class="page-head"><div><h1>Agendar cita</h1><p>Completa los datos para solicitar una nueva cita</p></div></div>
+        <div class="grid" style="grid-template-columns:1fr 320px;gap:20px;align-items:start;">
+          <div class="card">
+            <div class="field"><label>Mascota</label>
+              <select class="select" id="new-appt-pet" onchange="updateApptSummary()">
+                <option value="Luna">Luna — Golden Retriever</option>
+                <option value="Milo">Milo — Criollo</option>
+                <option value="Max" selected>Max — Labrador</option>
+              </select>
+            </div>
+            <div class="form-row">
+              <div class="field"><label>Fecha</label><input class="input" type="date" id="new-appt-date" value="2026-08-21" onchange="updateApptSummary()"></div>
+              <div class="field"><label>Hora disponible</label>
+                <select class="select" id="new-appt-time" onchange="updateApptSummary()">
+                  <option>8:00 a. m.</option><option>9:30 a. m.</option><option selected>11:00 a. m.</option><option>2:00 p. m.</option><option>4:30 p. m.</option>
+                </select>
+              </div>
+            </div>
+            <div class="field"><label>Motivo de la consulta</label>
+              <select class="select" id="new-appt-reason" onchange="updateApptSummary()">
+                <option>Consulta general</option><option>Vacunación</option><option>Control de peso</option><option>Desparasitación</option><option>Urgencia</option><option>Cirugía / procedimiento</option>
+              </select>
+            </div>
+            <div class="field"><label>Veterinario</label>
+              <select class="select" id="new-appt-vet" onchange="updateApptSummary()">
+                <option>Dra. Andrea Salazar — Medicina general</option>
+                <option>Dr. Julián Peña — Medicina general</option>
+                <option>Sin preferencia</option>
+              </select>
+            </div>
+          </div>
+          <div class="card" style="position:sticky;top:80px;">
+            <div class="card-title">Resumen de la cita</div>
+            <div class="card-sub">Verifica los datos antes de confirmar</div>
+            <div id="appt-summary" style="font-size:13.5px;display:flex;flex-direction:column;gap:9px;"></div>
+            <button class="btn btn-primary btn-block" style="margin-top:18px;" onclick="confirmAppointment()">Confirmar cita</button>
+            <button class="btn btn-ghost btn-block" style="margin-top:6px;" onclick="showView('owner-appointments')">Cancelar</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================= OWNER: MEDICAMENTOS ============================= -->
+      <section class="view" id="view-owner-medications">
+        <div class="page-head"><div><h1>Medicamentos</h1><p>Tratamientos actuales y su seguimiento</p></div></div>
+        <div id="meds-list" style="display:flex;flex-direction:column;gap:14px;"></div>
+      </section>
+
+      <!-- ============================= OWNER: RECORDATORIOS ============================= -->
+      <section class="view" id="view-owner-reminders">
+        <div class="page-head"><div><h1>Recordatorios</h1><p>Medicamentos, vacunas, citas y compras pendientes</p></div></div>
+        <div class="chip-row" style="margin-bottom:16px;" id="reminder-filters">
+          <button class="tag-chip active" onclick="filterReminders('Todos',this)">Todos</button>
+          <button class="tag-chip" onclick="filterReminders('Medicamento',this)">Medicamentos</button>
+          <button class="tag-chip" onclick="filterReminders('Vacuna',this)">Vacunas</button>
+          <button class="tag-chip" onclick="filterReminders('Cita',this)">Citas</button>
+          <button class="tag-chip" onclick="filterReminders('Compra de alimento',this)">Compra de alimento</button>
+          <button class="tag-chip" onclick="filterReminders('Compra de medicamentos',this)">Compra de medicamentos</button>
+        </div>
+        <div class="card"><div id="reminders-list"></div></div>
+      </section>
+
+      <!-- ============================= OWNER: GASTOS ============================= -->
+      <section class="view" id="view-owner-expenses">
+        <div class="page-head"><div><h1>Gastos</h1><p>Registro de gastos asociados a tus mascotas</p></div>
+          <button class="btn btn-primary" onclick="showView('owner-expense-new')">+ Registrar gasto</button>
+        </div>
+        <div class="grid grid-3" style="margin-bottom:18px;">
+          <div class="card stat-card"><span class="lbl">Total acumulado</span><span class="val" id="expense-total">$397.000</span><span class="sub">Últimos 12 meses</span></div>
+          <div class="field" style="margin:0;">
+            <label style="font-size:12px;">Filtrar por categoría</label>
+            <select class="select" id="expense-cat-filter" onchange="renderExpenses()">
+              <option value="Todas">Todas las categorías</option>
+              <option>Consulta</option><option>Medicamento</option><option>Vacuna</option><option>Alimento</option><option>Otro</option>
+            </select>
+          </div>
+          <div class="field" style="margin:0;">
+            <label style="font-size:12px;">Filtrar por mascota</label>
+            <select class="select" id="expense-pet-filter" onchange="renderExpenses()">
+              <option value="Todas">Todas las mascotas</option>
+              <option>Luna</option><option>Milo</option><option>Max</option>
+            </select>
+          </div>
+        </div>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Fecha</th><th>Mascota</th><th>Categoría</th><th>Descripción</th><th>Valor</th></tr></thead>
+          <tbody id="expenses-tbody"></tbody>
+        </table></div>
+      </section>
+
+      <!-- ============================= OWNER: REGISTRAR GASTO ============================= -->
+      <section class="view" id="view-owner-expense-new">
+        <div class="crumb"><button onclick="showView('owner-expenses')">Gastos</button> / Registrar gasto</div>
+        <div class="page-head"><div><h1>Registrar gasto</h1></div></div>
+        <div class="card" style="max-width:560px;">
+          <form onsubmit="event.preventDefault(); showToast('Gasto registrado correctamente','success'); showView('owner-expenses');">
+            <div class="field"><label>Mascota</label><select class="select" required><option>Luna</option><option>Milo</option><option selected>Max</option></select></div>
+            <div class="form-row">
+              <div class="field"><label>Fecha</label><input class="input" type="date" value="2026-08-09" required></div>
+              <div class="field"><label>Categoría</label><select class="select" required><option>Consulta</option><option>Medicamento</option><option>Vacuna</option><option>Alimento</option><option>Otro</option></select></div>
+            </div>
+            <div class="field"><label>Descripción</label><input class="input" placeholder="Ej. Concentrado light 8kg" required></div>
+            <div class="field"><label>Valor</label><input class="input" type="number" placeholder="$ 0" required></div>
+            <div class="field"><label>Observaciones <span style="font-weight:400;color:var(--color-text-soft);">(opcional)</span></label><textarea class="textarea"></textarea></div>
+            <div class="modal-actions" style="justify-content:flex-start;">
+              <button class="btn btn-primary" type="submit">Guardar gasto</button>
+              <button class="btn btn-outline" type="button" onclick="showView('owner-expenses')">Cancelar</button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- ============================= OWNER: CUIDADOS Y RUTINAS ============================= -->
+      <section class="view" id="view-owner-care">
+        <div class="page-head"><div><h1>Cuidados y rutinas</h1><p>Registra y consulta las rutinas diarias de tus mascotas</p></div>
+          <button class="btn btn-primary btn-sm" onclick="openModal('modal-care-new')">+ Registrar cuidado</button>
+        </div>
+        <select class="select" id="care-pet-filter" style="max-width:220px;margin-bottom:16px;" onchange="renderCare(this.value)"></select>
+        <div class="grid grid-3" id="care-grid"></div>
+      </section>
+
+      <!-- ============================= OWNER: ORIENTACION ANTE SINTOMAS ============================= -->
+      <section class="view" id="view-owner-symptom-checker">
+        <div class="page-head"><div><h1>Orientación ante síntomas</h1><p>Una guía general para ayudarte a decidir qué tan pronto buscar atención</p></div></div>
+        <div class="alert alert-warning" style="margin-bottom:20px;">
+          <span class="ic">⚠️</span>
+          <div><b>Esta herramienta es solo orientativa.</b> No realiza diagnósticos y no reemplaza la evaluación de un veterinario. Ante cualquier duda, contacta a la clínica.</div>
+        </div>
+        <div class="grid" style="grid-template-columns:1fr 340px;gap:20px;align-items:start;">
+          <div class="card">
+            <div class="card-title">Selecciona los síntomas observados</div>
+            <div class="card-sub">Marca todo lo que aplique</div>
+            <div id="symptom-options" class="chip-row"></div>
+            <div class="field" style="margin-top:18px;"><label>Describe algo adicional <span style="font-weight:400;color:var(--color-text-soft);">(opcional)</span></label>
+              <textarea class="textarea" id="symptom-notes" placeholder="Ej. Empezó hace 2 días y ha empeorado"></textarea>
+            </div>
+            <button class="btn btn-primary" onclick="evaluateSymptoms()">Evaluar</button>
+          </div>
+          <div class="card" id="symptom-result-card">
+            <div class="card-title">Resultado</div>
+            <div class="empty-state" style="padding:24px 6px;">
+              <div class="ic">🩺</div>
+              <p>Selecciona los síntomas y presiona «Evaluar» para ver una orientación de prioridad.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================= OWNER: EMERGENCIAS ============================= -->
+      <section class="view" id="view-owner-emergency">
+        <div class="page-head"><div><h1>Emergencias</h1><p>Contacto directo e indicaciones ante una urgencia veterinaria</p></div></div>
+        <div class="alert alert-danger" style="margin-bottom:20px;">
+          <span class="ic">🚨</span>
+          <div><b>Ante una emergencia real, contacta a la clínica de inmediato.</b> Esta pantalla no sustituye la atención veterinaria profesional.</div>
+        </div>
+        <div class="grid grid-2" style="margin-bottom:20px;">
+          <div class="card" style="text-align:center;padding:30px 20px;">
+            <div style="font-size:15px;font-weight:800;margin-bottom:4px;">Clínica VetCare — Sede Principal</div>
+            <div style="color:var(--color-text-muted);font-size:13px;margin-bottom:18px;">Atención de urgencias las 24 horas</div>
+            <a class="btn btn-danger btn-block" href="tel:+576015550199" style="margin-bottom:10px;">📞 Llamar ahora · (601) 555-0199</a>
+            <button class="btn btn-outline btn-block" onclick="openModal('modal-emergency-directions')">Obtener indicaciones</button>
+          </div>
+          <div class="card">
+            <div class="card-title">Información de contacto</div>
+            <div class="list-row"><span>Teléfono</span><span class="mono">(601) 555-0199</span></div>
+            <div class="list-row"><span>Dirección</span><span style="text-align:right;">Cra. 45 # 22-18, Bogotá</span></div>
+            <div class="list-row"><span>Horario urgencias</span><span>24 horas, todos los días</span></div>
+            <div class="list-row"><span>Horario consulta general</span><span>Lun–sáb, 8:00 a. m.–7:00 p. m.</span></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">¿Qué hacer ante una emergencia?</div>
+          <ul style="display:flex;flex-direction:column;gap:10px;margin-top:10px;">
+            <li>1. Mantén la calma y evita movimientos bruscos con tu mascota.</li>
+            <li>2. Llama a la clínica antes de trasladarte para recibir indicaciones.</li>
+            <li>3. Si hay sangrado, aplica presión suave con un paño limpio.</li>
+            <li>4. Traslada a tu mascota en una superficie firme si sospechas una lesión grave.</li>
+            <li>5. No administres medicamentos sin indicación veterinaria.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- ============================= OWNER: ESTADO DE SOLICITUDES ============================= -->
+      <section class="view" id="view-owner-requests">
+        <div class="page-head"><div><h1>Estado de solicitudes</h1><p>Seguimiento de citas y otras solicitudes que has realizado</p></div></div>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Fecha</th><th>Mascota</th><th>Descripción</th><th>Estado</th></tr></thead>
+          <tbody id="requests-tbody"></tbody>
+        </table></div>
+      </section>
+
+      <!-- ============================= OWNER: MI PERFIL ============================= -->
+      <section class="view" id="view-owner-my-profile">
+        <div class="page-head"><div><h1>Mi perfil</h1><p>Información de tu cuenta</p></div></div>
+        <div class="card" style="max-width:480px;">
+          <div class="field"><label>Nombre completo</label><input class="input" value="Camila Restrepo" readonly></div>
+          <div class="field"><label>Correo electrónico</label><input class="input" value="camila.restrepo@email.com" readonly></div>
+          <div class="field"><label>Teléfono</label><input class="input" value="+57 300 555 1234" readonly></div>
+          <button class="btn btn-outline">Editar información</button>
+        </div>
+      </section>
+
+      <!-- ============================= VET: DASHBOARD ============================= -->
+      <section class="view" id="view-vet-dashboard">
+        <div class="page-head"><div><h1>Hola, Dra. Salazar 👋</h1><p>Resumen de tu jornada — sábado 9 de agosto de 2026</p></div></div>
+        <div class="grid grid-4" style="margin-bottom:22px;">
+          <div class="card stat-card"><span class="lbl">Citas de hoy</span><span class="val">3</span><span class="sub">1 pendiente por confirmar</span></div>
+          <div class="card stat-card"><span class="lbl">Próximas citas</span><span class="val">4</span><span class="sub">Próximos 7 días</span></div>
+          <div class="card stat-card"><span class="lbl">Pacientes recientes</span><span class="val">6</span><span class="sub">Atendidos este mes</span></div>
+          <div class="card stat-card"><span class="lbl">Alertas</span><span class="val">2</span><span class="sub">Vacunas vencidas</span></div>
+        </div>
+        <div class="section-title">Accesos rápidos</div>
+        <div class="grid grid-4" style="margin-bottom:26px;">
+          <button class="quick-link" onclick="showView('vet-appointments')"><div class="ic">📅</div><span>Citas</span></button>
+          <button class="quick-link" onclick="showView('vet-patients')"><div class="ic">🐾</div><span>Pacientes</span></button>
+          <button class="quick-link" onclick="showView('vet-consult-new')"><div class="ic">📝</div><span>Registrar consulta</span></button>
+          <button class="quick-link" onclick="showView('vet-vaccine-update')"><div class="ic">💉</div><span>Actualizar vacunas</span></button>
+        </div>
+        <div class="grid grid-2">
+          <div class="card">
+            <div class="card-title">Citas de hoy</div>
+            <div id="vet-today-appts"></div>
+          </div>
+          <div class="card">
+            <div class="card-title">Alertas</div>
+            <div style="display:flex;flex-direction:column;gap:10px;">
+              <div class="alert alert-danger"><span class="ic">💉</span><div><b>Milo</b> tiene la vacuna de Rabia vencida desde el 05/07/2026.</div></div>
+              <div class="alert alert-warning"><span class="ic">📋</span><div><b>Luna</b> tiene un refuerzo de Polivalente (DHPPi) próximo el 20/08/2026.</div></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================= VET: PACIENTES ============================= -->
+      <section class="view" id="view-vet-patients">
+        <div class="page-head"><div><h1>Gestión de pacientes</h1><p>Consulta mascotas y propietarios registrados</p></div></div>
+        <div class="card" style="margin-bottom:18px;">
+          <div class="form-row" style="grid-template-columns:1fr 1fr 1fr;">
+            <div class="field" style="margin:0;"><label>Buscar por mascota</label><input class="input" id="patient-search-pet" oninput="renderPatients()" placeholder="Ej. Luna"></div>
+            <div class="field" style="margin:0;"><label>Buscar por propietario</label><input class="input" id="patient-search-owner" oninput="renderPatients()" placeholder="Ej. Camila"></div>
+            <div class="field" style="margin:0;"><label>Especie</label>
+              <select class="select" id="patient-filter-species" onchange="renderPatients()">
+                <option value="Todas">Todas</option><option>Perro</option><option>Gato</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Mascota</th><th>Especie / Raza</th><th>Propietario</th><th>Última visita</th><th></th></tr></thead>
+          <tbody id="patients-tbody"></tbody>
+        </table></div>
+      </section>
+
+      <!-- ============================= VET: PERFIL CLINICO ============================= -->
+      <section class="view" id="view-vet-patient-profile">
+        <div class="crumb"><button onclick="showView('vet-patients')">Pacientes</button> / <span id="vetprofile-crumb">Perfil clínico</span></div>
+        <div id="vetprofile-header" class="card" style="display:flex;gap:18px;align-items:center;flex-wrap:wrap;margin-bottom:20px;"></div>
+        <div class="grid grid-2" style="margin-bottom:20px;">
+          <div class="card"><div class="card-title">Alergias y condiciones</div><div id="vetprofile-health"></div></div>
+          <div class="card"><div class="card-title">Próxima cita</div><div id="vetprofile-nextappt"></div></div>
+        </div>
+        <div class="section-title">Historia clínica</div>
+        <div class="timeline" id="vetprofile-history"></div>
+        <div class="section-title">Vacunas</div>
+        <div class="table-wrap"><table><thead><tr><th>Vacuna</th><th>Aplicación</th><th>Próxima</th><th>Estado</th></tr></thead><tbody id="vetprofile-vax"></tbody></table></div>
+      </section>
+
+      <!-- ============================= VET: REGISTRAR CONSULTA ============================= -->
+      <section class="view" id="view-vet-consult-new">
+        <div class="page-head"><div><h1>Registrar consulta</h1><p>Documenta una nueva atención veterinaria</p></div></div>
+        <div class="card" style="max-width:760px;">
+          <form onsubmit="event.preventDefault(); showToast('Consulta guardada correctamente','success'); showView('vet-dashboard');">
+            <div class="form-row">
+              <div class="field"><label>Mascota</label><select class="select" required><option>Luna — Camila Restrepo</option><option>Milo — Camila Restrepo</option><option selected>Max — Camila Restrepo</option><option>Rocky — Andrés Gómez</option><option>Nina — Laura Torres</option></select></div>
+              <div class="field"><label>Fecha</label><input class="input" type="date" value="2026-08-09" required></div>
+            </div>
+            <div class="field"><label>Veterinario</label><input class="input" value="Dra. Andrea Salazar" readonly></div>
+            <div class="field"><label>Motivo</label><input class="input" placeholder="Ej. Control de peso" required></div>
+            <div class="field"><label>Síntomas</label><textarea class="textarea" placeholder="Describe los síntomas observados"></textarea></div>
+            <div class="field"><label>Diagnóstico</label><textarea class="textarea" placeholder="Diagnóstico clínico"></textarea></div>
+            <div class="field"><label>Tratamiento</label><textarea class="textarea" placeholder="Tratamiento indicado"></textarea></div>
+            <div class="section-title" style="margin-top:6px;">Medicamento formulado</div>
+            <div class="form-row" style="grid-template-columns:2fr 1fr 1fr 1fr;">
+              <div class="field"><label>Nombre</label><input class="input" placeholder="Ej. L-Carnitina"></div>
+              <div class="field"><label>Dosis</label><input class="input" placeholder="Ej. 250 mg"></div>
+              <div class="field"><label>Frecuencia</label><input class="input" placeholder="Ej. Cada 24h"></div>
+              <div class="field"><label>Duración</label><input class="input" placeholder="Ej. 30 días"></div>
+            </div>
+            <button class="btn btn-outline btn-sm" type="button" style="margin-bottom:16px;">+ Agregar otro medicamento</button>
+            <div class="field"><label>Indicaciones posteriores</label><textarea class="textarea" placeholder="Indicaciones para el propietario"></textarea></div>
+            <div class="field"><label>Observaciones</label><textarea class="textarea"></textarea></div>
+            <div class="modal-actions" style="justify-content:flex-start;">
+              <button class="btn btn-primary" type="submit">Guardar consulta</button>
+              <button class="btn btn-outline" type="button" onclick="showView('vet-dashboard')">Cancelar</button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- ============================= VET: ACTUALIZAR VACUNAS ============================= -->
+      <section class="view" id="view-vet-vaccine-update">
+        <div class="page-head"><div><h1>Actualizar vacunas</h1><p>Registra una nueva vacuna aplicada</p></div></div>
+        <div class="card" style="max-width:560px;">
+          <form onsubmit="event.preventDefault(); showToast('Vacuna registrada correctamente','success'); showView('vet-dashboard');">
+            <div class="field"><label>Mascota</label><select class="select" required><option>Luna — Camila Restrepo</option><option>Milo — Camila Restrepo</option><option>Max — Camila Restrepo</option><option>Rocky — Andrés Gómez</option></select></div>
+            <div class="field"><label>Nombre de la vacuna</label><input class="input" placeholder="Ej. Rabia" required></div>
+            <div class="form-row">
+              <div class="field"><label>Fecha de aplicación</label><input class="input" type="date" value="2026-08-09" required></div>
+              <div class="field"><label>Próxima fecha</label><input class="input" type="date" required></div>
+            </div>
+            <div class="field"><label>Número de lote <span style="font-weight:400;color:var(--color-text-soft);">(opcional)</span></label><input class="input" placeholder="Ej. L-88231"></div>
+            <div class="field"><label>Observaciones</label><textarea class="textarea"></textarea></div>
+            <div class="modal-actions" style="justify-content:flex-start;">
+              <button class="btn btn-primary" type="submit">Guardar</button>
+              <button class="btn btn-outline" type="button" onclick="showView('vet-dashboard')">Cancelar</button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- ============================= VET: CITAS ============================= -->
+      <section class="view" id="view-vet-appointments">
+        <div class="page-head"><div><h1>Gestión de citas</h1><p>Vista de calendario y acciones sobre las citas</p></div></div>
+        <div class="chip-row" style="margin-bottom:16px;">
+          <button class="tag-chip active" onclick="filterVetAppts('todas',this)">Todas</button>
+          <button class="tag-chip" onclick="filterVetAppts('pendiente',this)">Pendientes</button>
+          <button class="tag-chip" onclick="filterVetAppts('confirmada',this)">Confirmadas</button>
+          <button class="tag-chip" onclick="filterVetAppts('atendida',this)">Atendidas</button>
+        </div>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Fecha y hora</th><th>Mascota</th><th>Propietario</th><th>Motivo</th><th>Estado</th><th>Acciones</th></tr></thead>
+          <tbody id="vet-appt-tbody"></tbody>
+        </table></div>
+      </section>
+
+      <!-- ============================= VET: MI PERFIL ============================= -->
+      <section class="view" id="view-vet-my-profile">
+        <div class="page-head"><div><h1>Mi perfil</h1><p>Información de tu cuenta profesional</p></div></div>
+        <div class="card" style="max-width:480px;">
+          <div class="field"><label>Nombre completo</label><input class="input" value="Dra. Andrea Salazar" readonly></div>
+          <div class="field"><label>Especialidad</label><input class="input" value="Medicina general" readonly></div>
+          <div class="field"><label>Correo electrónico</label><input class="input" value="andrea.salazar@vetcare.com" readonly></div>
+          <button class="btn btn-outline">Editar información</button>
+        </div>
+      </section>
+
+      <!-- ============================= DESIGN SYSTEM / STYLE GUIDE ============================= -->
+      <section class="view" id="view-design-system">
+        <div class="page-head"><div><h1>Guía de estilo</h1><p>Sistema de diseño básico de VetCare — componentes y estados</p></div></div>
+
+        <div class="section-title">Color</div>
+        <div class="grid grid-4">
+          <div class="card"><div style="height:40px;border-radius:8px;background:var(--color-primary);margin-bottom:8px;"></div><b>Primario</b><div class="mono" style="font-size:11px;">#2F6F62</div></div>
+          <div class="card"><div style="height:40px;border-radius:8px;background:var(--color-secondary);margin-bottom:8px;"></div><b>Secundario</b><div class="mono" style="font-size:11px;">#3B6E8F</div></div>
+          <div class="card"><div style="height:40px;border-radius:8px;background:var(--color-accent);margin-bottom:8px;"></div><b>Acento</b><div class="mono" style="font-size:11px;">#E3982E</div></div>
+          <div class="card"><div style="height:40px;border-radius:8px;background:var(--color-danger);margin-bottom:8px;"></div><b>Peligro</b><div class="mono" style="font-size:11px;">#B8483A</div></div>
+        </div>
+
+        <div class="section-title">Botones</div>
+        <div class="card" style="display:flex;gap:10px;flex-wrap:wrap;">
+          <button class="btn btn-primary">Primario</button>
+          <button class="btn btn-secondary">Secundario</button>
+          <button class="btn btn-outline">Contorno</button>
+          <button class="btn btn-danger">Peligro</button>
+          <button class="btn btn-ghost">Fantasma</button>
+          <button class="btn btn-primary" disabled>Deshabilitado</button>
+        </div>
+
+        <div class="section-title">Badges de estado</div>
+        <div class="card" style="display:flex;gap:10px;flex-wrap:wrap;">
+          <span class="badge badge-success"><span class="badge-dot"></span>Confirmada</span>
+          <span class="badge badge-warning"><span class="badge-dot"></span>Pendiente</span>
+          <span class="badge badge-danger"><span class="badge-dot"></span>Cancelada</span>
+          <span class="badge badge-info"><span class="badge-dot"></span>En proceso</span>
+          <span class="badge badge-neutral"><span class="badge-dot"></span>Atendida</span>
+        </div>
+
+        <div class="section-title">Alertas</div>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <div class="alert alert-info"><span class="ic">ℹ️</span><div>Mensaje informativo para el usuario.</div></div>
+          <div class="alert alert-warning"><span class="ic">⚠️</span><div>Advertencia que requiere atención.</div></div>
+          <div class="alert alert-danger"><span class="ic">🚨</span><div>Error o situación crítica.</div></div>
+          <div class="alert alert-success"><span class="ic">✅</span><div>Acción completada con éxito.</div></div>
+        </div>
+
+        <div class="section-title">Inputs y validación</div>
+        <div class="card grid grid-2">
+          <div class="field"><label>Campo normal</label><input class="input" placeholder="Texto de ejemplo"></div>
+          <div class="field"><label>Campo con error</label><input class="input invalid" value="correo-invalido"><div class="err">Ingresa un correo electrónico válido</div></div>
+        </div>
+
+        <div class="section-title">Estados: cargando / vacío / error</div>
+        <div class="grid grid-3">
+          <div class="card"><div class="skeleton skel-line" style="width:60%"></div><div class="skeleton skel-line" style="width:90%"></div><div class="skeleton skel-line" style="width:40%"></div></div>
+          <div class="card empty-state"><div class="ic">📭</div><h4>Sin información</h4><p>Aún no hay datos para mostrar aquí.</p><button class="btn btn-primary btn-sm">Agregar</button></div>
+          <div class="card"><div class="alert alert-danger"><span class="ic">⚠️</span><div>No pudimos cargar la información. Intenta de nuevo.</div></div></div>
+        </div>
+
+        <div style="margin-top:26px;"><button class="btn btn-outline" onclick="history.back ? showView(previousDashboard()) : null">← Volver</button></div>
+      </section>
+
+    </main>
+  </div>
+</div>
+
+<!-- ============================= MODALS ============================= -->
+<div class="modal-overlay" id="modal-cancel-appt">
+  <div class="modal">
+    <div class="modal-head"><h3>¿Cancelar esta cita?</h3><button class="icon-btn" onclick="closeModal('modal-cancel-appt')">✕</button></div>
+    <p style="font-size:13.5px;color:var(--color-text-muted);">Esta acción no se puede deshacer. Si necesitas reprogramar, deberás agendar una nueva cita.</p>
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeModal('modal-cancel-appt')">Volver</button>
+      <button class="btn btn-danger" onclick="doCancelAppt()">Sí, cancelar cita</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-emergency-directions">
+  <div class="modal">
+    <div class="modal-head"><h3>Indicaciones para llegar</h3><button class="icon-btn" onclick="closeModal('modal-emergency-directions')">✕</button></div>
+    <div class="alert alert-info" style="margin-bottom:14px;"><span class="ic">📍</span><div>Cra. 45 # 22-18, Bogotá — a 12 min en carro desde tu ubicación aproximada.</div></div>
+    <p style="font-size:13.5px;color:var(--color-text-muted);">Llama antes de salir para que el equipo de urgencias esté preparado para recibir a tu mascota.</p>
+    <div class="modal-actions">
+      <a class="btn btn-danger" href="tel:+576015550199">📞 Llamar ahora</a>
+      <button class="btn btn-outline" onclick="closeModal('modal-emergency-directions')">Cerrar</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-care-new">
+  <div class="modal">
+    <div class="modal-head"><h3>Registrar cuidado</h3><button class="icon-btn" onclick="closeModal('modal-care-new')">✕</button></div>
+    <form onsubmit="event.preventDefault(); showToast('Cuidado registrado correctamente','success'); closeModal('modal-care-new');">
+      <div class="field"><label>Mascota</label><select class="select"><option>Luna</option><option>Milo</option><option>Max</option></select></div>
+      <div class="field"><label>Tipo de cuidado</label><select class="select"><option>Alimentación</option><option>Paseos</option><option>Higiene</option><option>Medicación</option><option>Ejercicio</option><option>Otros</option></select></div>
+      <div class="form-row">
+        <div class="field"><label>Frecuencia</label><input class="input" placeholder="Ej. 2 veces al día"></div>
+        <div class="field"><label>Horario</label><input class="input" placeholder="Ej. 7:00 a.m. y 6:00 p.m."></div>
+      </div>
+      <div class="field"><label>Notas</label><textarea class="textarea"></textarea></div>
+      <div class="modal-actions">
+        <button class="btn btn-outline" type="button" onclick="closeModal('modal-care-new')">Cancelar</button>
+        <button class="btn btn-primary" type="submit">Guardar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   DATA
+   ============================================================ */
+const pets = [
+  {id:'p1', name:'Luna', species:'Perro', speciesClass:'dog', breed:'Golden Retriever', sex:'Hembra', birth:'14/03/2021', age:'5 años', weight:'28 kg', color:'Dorado', chip:'CL-0234-9981', allergies:'Ninguna conocida', conditions:'Displasia de cadera leve', status:'Activa', icon:'🐕'},
+  {id:'p2', name:'Milo', species:'Gato', speciesClass:'cat', breed:'Criollo', sex:'Macho', birth:'02/07/2022', age:'4 años', weight:'4.2 kg', color:'Atigrado', chip:'CL-0234-7742', allergies:'Alergia al pollo', conditions:'Ninguna', status:'Activo', icon:'🐈'},
+  {id:'p3', name:'Max', species:'Perro', speciesClass:'dog', breed:'Labrador', sex:'Macho', birth:'20/11/2019', age:'6 años', weight:'32 kg', color:'Negro', chip:'CL-0234-5510', allergies:'Ninguna conocida', conditions:'Sobrepeso leve', status:'En tratamiento', icon:'🐕‍🦺'}
+];
+const ownerName = 'Camila Restrepo';
+
+const consultations = [
+  {id:'con1', petId:'p3', date:'28/07/2026', vet:'Dra. Andrea Salazar', reason:'Control de peso', symptoms:'Menor actividad, aumento de apetito', diagnosis:'Sobrepeso leve (32 kg, objetivo 29 kg)', treatment:'Plan de dieta controlada y ejercicio diario', meds:[{name:'L-Carnitina',dose:'250 mg',freq:'Cada 24 horas',duration:'30 días'}], indications:'Pesar semanalmente y registrar en la app. Evitar premios entre comidas.', observations:'Reevaluar en 30 días.'},
+  {id:'con2', petId:'p1', date:'10/06/2026', vet:'Dr. Julián Peña', reason:'Chequeo general anual', symptoms:'Ninguno reportado', diagnosis:'Estado de salud óptimo', treatment:'Ninguno requerido', meds:[], indications:'Continuar con alimentación balanceada y ejercicio habitual.', observations:'Próximo chequeo general en 12 meses.'},
+  {id:'con3', petId:'p2', date:'22/05/2026', vet:'Dra. Andrea Salazar', reason:'Vómito y decaimiento', symptoms:'Vómito ocasional, poco apetito, letargo leve', diagnosis:'Gastritis leve', treatment:'Dieta blanda durante 5 días', meds:[{name:'Omeprazol',dose:'5 mg',freq:'Cada 24 horas',duration:'7 días'}], indications:'Evitar cambios bruscos de alimento. Ofrecer agua fresca.', observations:'Mejoría esperada en 3–4 días. Contactar si persiste.'},
+  {id:'con4', petId:'p3', date:'02/03/2026', vet:'Dra. Andrea Salazar', reason:'Revisión de displasia de cadera', symptoms:'Leve cojera tras ejercicio prolongado', diagnosis:'Displasia de cadera leve, estable', treatment:'Suplemento articular y control de peso', meds:[{name:'Condroprotector',dose:'1 tableta',freq:'Cada 24 horas',duration:'60 días'}], indications:'Evitar saltos y escaleras en exceso.', observations:'Sin cambios respecto a la revisión anterior.'},
+  {id:'con5', petId:'p1', date:'15/02/2026', vet:'Dra. Andrea Salazar', reason:'Aplicación de vacuna antirrábica', symptoms:'Ninguno', diagnosis:'Apta para vacunación', treatment:'Vacunación', meds:[], indications:'Observar el sitio de aplicación por 24 horas.', observations:'Sin reacciones adversas.'}
+];
+
+const vaccines = [
+  {id:'v1', petId:'p1', name:'Rabia', applied:'15/02/2026', next:'15/02/2027', vet:'Dra. Andrea Salazar', status:'Al día'},
+  {id:'v2', petId:'p1', name:'Polivalente (DHPPi)', applied:'01/09/2025', next:'20/08/2026', vet:'Dr. Julián Peña', status:'Próxima'},
+  {id:'v3', petId:'p2', name:'Triple felina', applied:'10/01/2026', next:'10/01/2027', vet:'Dra. Andrea Salazar', status:'Al día'},
+  {id:'v4', petId:'p2', name:'Rabia', applied:'05/07/2025', next:'05/07/2026', vet:'Dra. Andrea Salazar', status:'Vencida'},
+  {id:'v5', petId:'p3', name:'Rabia', applied:'12/04/2026', next:'12/04/2027', vet:'Dra. Andrea Salazar', status:'Al día'}
+];
+
+const appointments = [
+  {id:'a1', petId:'p3', date:'14/08/2026', time:'10:30 a. m.', vet:'Dra. Andrea Salazar', reason:'Control de peso', status:'confirmada'},
+  {id:'a2', petId:'p1', date:'20/08/2026', time:'3:00 p. m.', vet:'Dr. Julián Peña', reason:'Refuerzo vacuna Polivalente', status:'pendiente'},
+  {id:'a3', petId:'p2', date:'22/05/2026', time:'9:00 a. m.', vet:'Dra. Andrea Salazar', reason:'Vómito y decaimiento', status:'atendida'},
+  {id:'a4', petId:'p1', date:'02/08/2026', time:'11:00 a. m.', vet:'Dr. Julián Peña', reason:'Corte de uñas', status:'cancelada'}
+];
+
+const medications = [
+  {id:'m1', petId:'p3', name:'L-Carnitina', dose:'250 mg', freq:'Cada 24 horas', duration:'30 días', start:'28/07/2026', end:'27/08/2026', indications:'Administrar junto con la comida de la mañana.', status:'En curso', next:'Hoy · 8:00 p. m.'},
+  {id:'m2', petId:'p2', name:'Omeprazol', dose:'5 mg', freq:'Cada 24 horas', duration:'7 días', start:'22/05/2026', end:'29/05/2026', indications:'Administrar en ayunas.', status:'Finalizado', next:'—'},
+  {id:'m3', petId:'p3', name:'Condroprotector', dose:'1 tableta', freq:'Cada 24 horas', duration:'60 días', start:'02/03/2026', end:'01/05/2026', indications:'Con o sin alimento.', status:'Finalizado', next:'—'}
+];
+
+const reminders = [
+  {id:'r1', category:'Medicamento', date:'09/08/2026', time:'8:00 p. m.', desc:'Dar dosis de L-Carnitina', pet:'Max', status:'pendiente'},
+  {id:'r2', category:'Vacuna', date:'20/08/2026', time:'3:00 p. m.', desc:'Refuerzo Polivalente (DHPPi)', pet:'Luna', status:'pendiente'},
+  {id:'r3', category:'Cita', date:'14/08/2026', time:'10:30 a. m.', desc:'Control de peso', pet:'Max', status:'pendiente'},
+  {id:'r4', category:'Compra de alimento', date:'12/08/2026', time:'—', desc:'Comprar concentrado light 8kg', pet:'Max', status:'pendiente'},
+  {id:'r5', category:'Compra de medicamentos', date:'27/08/2026', time:'—', desc:'Renovar L-Carnitina', pet:'Max', status:'pendiente'},
+  {id:'r6', category:'Cita', date:'02/08/2026', time:'11:00 a. m.', desc:'Corte de uñas', pet:'Luna', status:'completado'}
+];
+
+const expenses = [
+  {id:'e1', date:'28/07/2026', category:'Consulta', desc:'Control de peso', value:85000, pet:'Max'},
+  {id:'e2', date:'22/05/2026', category:'Consulta', desc:'Consulta por vómito', value:75000, pet:'Milo'},
+  {id:'e3', date:'22/05/2026', category:'Medicamento', desc:'Omeprazol 5mg x14', value:32000, pet:'Milo'},
+  {id:'e4', date:'15/02/2026', category:'Vacuna', desc:'Vacuna antirrábica', value:60000, pet:'Luna'},
+  {id:'e5', date:'03/01/2026', category:'Alimento', desc:'Concentrado premium 15kg', value:145000, pet:'Luna'}
+];
+
+const careRoutines = [
+  {pet:'Luna', type:'Alimentación', freq:'2 veces al día', schedule:'7:00 a. m. y 6:00 p. m.', notes:'Ración de 300 g, concentrado light'},
+  {pet:'Luna', type:'Paseos', freq:'2 veces al día', schedule:'6:30 a. m. y 7:00 p. m.', notes:'30 minutos por paseo'},
+  {pet:'Luna', type:'Higiene', freq:'Cada 3 semanas', schedule:'Sábados', notes:'Baño con shampoo hipoalergénico'},
+  {pet:'Milo', type:'Alimentación', freq:'3 veces al día', schedule:'7:00 a.m., 1:00 p.m., 7:00 p.m.', notes:'Alimento sin pollo por alergia'},
+  {pet:'Milo', type:'Higiene', freq:'Diario', schedule:'Cualquier hora', notes:'Limpieza de arenero'},
+  {pet:'Max', type:'Ejercicio', freq:'Diario', schedule:'6:00 a. m.', notes:'Trote de 20 minutos, control de peso'},
+  {pet:'Max', type:'Medicación', freq:'Diario', schedule:'8:00 p. m.', notes:'L-Carnitina con la comida'},
+  {pet:'Max', type:'Alimentación', freq:'2 veces al día', schedule:'7:00 a. m. y 6:00 p. m.', notes:'Ración light, sin premios extra'}
+];
+
+const requests = [
+  {id:'s1', date:'20/08/2026', pet:'Luna', desc:'Solicitud de cita — Refuerzo vacuna Polivalente', status:'pendiente'},
+  {id:'s2', date:'14/08/2026', pet:'Max', desc:'Solicitud de cita — Control de peso', status:'aprobado'},
+  {id:'s3', date:'05/08/2026', pet:'Milo', desc:'Solicitud de copia de historia clínica', status:'en proceso'},
+  {id:'s4', date:'02/08/2026', pet:'Luna', desc:'Solicitud de cita — Corte de uñas', status:'cancelado'},
+  {id:'s5', date:'22/05/2026', pet:'Milo', desc:'Solicitud de cita — Consulta por vómito', status:'aprobado'}
+];
+
+const symptomOptions = ['Vómito', 'Diarrea', 'Decaimiento / letargo', 'Falta de apetito', 'Dificultad para respirar', 'Sangrado', 'Cojera', 'Convulsiones', 'Hinchazón abdominal', 'Picazón en la piel'];
+const severeSymptoms = ['Dificultad para respirar', 'Sangrado', 'Convulsiones', 'Hinchazón abdominal'];
+const moderateSymptoms = ['Vómito', 'Diarrea', 'Decaimiento / letargo', 'Cojera'];
+
+const vetPatients = [
+  {id:'p1', name:'Luna', species:'Perro', breed:'Golden Retriever', owner:'Camila Restrepo', lastVisit:'15/02/2026', icon:'🐕', class:'dog'},
+  {id:'p2', name:'Milo', species:'Gato', breed:'Criollo', owner:'Camila Restrepo', lastVisit:'22/05/2026', icon:'🐈', class:'cat'},
+  {id:'p3', name:'Max', species:'Perro', breed:'Labrador', owner:'Camila Restrepo', lastVisit:'28/07/2026', icon:'🐕‍🦺', class:'dog'},
+  {id:'p4', name:'Rocky', species:'Perro', breed:'Bulldog Francés', owner:'Andrés Gómez', lastVisit:'30/07/2026', icon:'🐶', class:'dog'},
+  {id:'p5', name:'Nina', species:'Gato', breed:'Siamés', owner:'Laura Torres', lastVisit:'18/06/2026', icon:'🐱', class:'cat'},
+  {id:'p6', name:'Toby', species:'Perro', breed:'Criollo', owner:'Laura Torres', lastVisit:'12/04/2026', icon:'🐕', class:'dog'}
+];
+
+const vetAppointments = [
+  {id:'va1', date:'09/08/2026', time:'8:00 a. m.', pet:'Rocky', owner:'Andrés Gómez', reason:'Vacunación', status:'confirmada'},
+  {id:'va2', date:'09/08/2026', time:'9:30 a. m.', pet:'Nina', owner:'Laura Torres', reason:'Chequeo general', status:'pendiente'},
+  {id:'va3', date:'09/08/2026', time:'11:00 a. m.', pet:'Max', owner:'Camila Restrepo', reason:'Seguimiento de peso', status:'confirmada'},
+  {id:'va4', date:'14/08/2026', time:'10:30 a. m.', pet:'Max', owner:'Camila Restrepo', reason:'Control de peso', status:'pendiente'},
+  {id:'va5', date:'20/08/2026', time:'3:00 p. m.', pet:'Luna', owner:'Camila Restrepo', reason:'Refuerzo vacuna Polivalente', status:'pendiente'},
+  {id:'va6', date:'28/07/2026', time:'9:00 a. m.', pet:'Max', owner:'Camila Restrepo', reason:'Control de peso', status:'atendida'}
+];
+
+/* ============================================================
+   STATE
+   ============================================================ */
+const state = { role:'owner', selectedPetId:'p3', apptFilter:'todas', vetApptFilter:'todas', reminderFilter:'Todos' };
+
+const ownerNav = [
+  {id:'owner-dashboard', label:'Inicio', ic:'🏠'},
+  {id:'owner-pets', label:'Mis mascotas', ic:'🐾'},
+  {id:'owner-appointments', label:'Citas', ic:'📅'},
+  {id:'owner-history', label:'Historia clínica', ic:'📋'},
+  {id:'owner-medications', label:'Medicamentos', ic:'💊'},
+  {id:'owner-vaccines', label:'Vacunas', ic:'💉'},
+  {id:'owner-reminders', label:'Recordatorios', ic:'⏰'},
+  {id:'owner-expenses', label:'Gastos', ic:'💰'},
+  {id:'owner-care', label:'Cuidados', ic:'🦴'},
+  {id:'owner-symptom-checker', label:'Orientación', ic:'🩺'},
+  {id:'owner-emergency', label:'Emergencias', ic:'🚨'},
+  {id:'owner-requests', label:'Estado de solicitudes', ic:'📑'},
+  {id:'owner-my-profile', label:'Mi perfil', ic:'👤'}
+];
+const vetNav = [
+  {id:'vet-dashboard', label:'Dashboard', ic:'🏠'},
+  {id:'vet-appointments', label:'Citas', ic:'📅'},
+  {id:'vet-patients', label:'Pacientes', ic:'🐾'},
+  {id:'vet-consult-new', label:'Registrar consulta', ic:'📝'},
+  {id:'vet-vaccine-update', label:'Vacunas', ic:'💉'},
+  {id:'vet-my-profile', label:'Mi perfil', ic:'👤'}
+];
+const ownerBottomNav = ['owner-dashboard','owner-appointments','owner-pets','owner-reminders'];
+const vetBottomNav = ['vet-dashboard','vet-appointments','vet-patients','vet-my-profile'];
+
+/* ============================================================
+   NAVIGATION
+   ============================================================ */
+function showView(id){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  const target = document.getElementById('view-'+id);
+  if(target) target.classList.add('active');
+  window.scrollTo({top:0,behavior:'instant'});
+  closeDrawer();
+
+  const isAuth = ['login','register','recover'].includes(id);
+  document.getElementById('app-shell').classList.toggle('active', !isAuth);
+
+  if(!isAuth){
+    buildSidebar();
+    const navList = state.role==='owner' ? ownerNav : vetNav;
+    let match = navList.find(n=>n.id===id);
+    if(id==='design-system'){ document.getElementById('topbar-title').textContent = 'Guía de estilo'; }
+    else if(match){ document.getElementById('topbar-title').textContent = match.label; }
+    else { document.getElementById('topbar-title').textContent = document.querySelector('#view-'+id+' h1') ? document.querySelector('#view-'+id+' h1').textContent : 'VetCare'; }
+    document.querySelectorAll('.nav-item, .bn-item').forEach(el=>{
+      el.classList.toggle('active', el.dataset.view===id);
+    });
+    renderAllForView(id);
+  }
+}
+function previousDashboard(){ return state.role==='owner' ? 'owner-dashboard' : 'vet-dashboard'; }
+
+function buildSidebar(){
+  const navList = state.role==='owner' ? ownerNav : vetNav;
+  const roleLabel = state.role==='owner' ? 'Portal del propietario' : 'Portal del personal veterinario';
+  document.getElementById('sidebar-role-label').textContent = roleLabel;
+  const bottomIds = state.role==='owner' ? ownerBottomNav : vetBottomNav;
+
+  const navHtml = navList.map(n=>`<button class="nav-item" data-view="${n.id}" onclick="showView('${n.id}')"><span class="ic">${n.ic}</span>${n.label}</button>`).join('');
+  document.getElementById('sidebar-nav').innerHTML = navHtml;
+  document.getElementById('drawer-nav').innerHTML = navHtml + `<div class="divider"></div><button class="nav-item" onclick="showView('design-system')"><span class="ic">🎨</span>Guía de estilo</button><button class="nav-item" onclick="logout()"><span class="ic">🚪</span>Cerrar sesión</button>`;
+
+  let bnav = document.getElementById('bottom-nav-el');
+  if(!bnav){
+    bnav = document.createElement('nav');
+    bnav.className='bottom-nav'; bnav.id='bottom-nav-el';
+    document.body.appendChild(bnav);
+  }
+  bnav.innerHTML = '<div class="bn-row">' + bottomIds.map(id=>{
+    const item = navList.find(n=>n.id===id);
+    return `<button class="bn-item" data-view="${id}" onclick="showView('${id}')"><span class="ic">${item.ic}</span>${item.label.split(' ')[0]}</button>`;
+  }).join('') + `<button class="bn-item" data-view="__more" onclick="openDrawer()"><span class="ic">☰</span>Más</button></div>`;
+
+  // profile chip
+  if(state.role==='owner'){
+    document.getElementById('topbar-avatar').textContent='CR';
+    document.getElementById('topbar-username').textContent=ownerName;
+  } else {
+    document.getElementById('topbar-avatar').textContent='AS';
+    document.getElementById('topbar-username').textContent='Dra. Andrea Salazar';
+  }
+}
+function openDrawer(){document.getElementById('drawer').classList.add('open');document.getElementById('drawer-overlay').classList.add('open');}
+function closeDrawer(){document.getElementById('drawer').classList.remove('open');document.getElementById('drawer-overlay').classList.remove('open');}
+
+function toggleDemoRole(){
+  state.role = state.role==='owner' ? 'vet' : 'owner';
+  showToast('Cambiaste al portal de '+(state.role==='owner'?'propietario':'personal veterinario'),'success');
+  showView(state.role==='owner' ? 'owner-dashboard' : 'vet-dashboard');
+}
+function setLoginRole(role){
+  state.role = role;
+  document.querySelectorAll('#login-role-switch button').forEach(b=>b.classList.toggle('active', b.dataset.role===role));
+}
+function handleLogin(e){
+  e.preventDefault();
+  showToast('Sesión iniciada correctamente','success');
+  showView(state.role==='owner' ? 'owner-dashboard' : 'vet-dashboard');
+  return false;
+}
+function handleRecover(e){
+  e.preventDefault();
+  document.getElementById('recover-card').innerHTML = `
+    <div class="auth-logo"><div class="mark">🐾</div><div class="word">Vet<span>Care</span></div></div>
+    <div class="alert alert-success" style="margin-bottom:16px;"><span class="ic">✅</span><div><b>Enlace enviado.</b> Revisa tu correo para restablecer tu contraseña.</div></div>
+    <button class="btn btn-primary btn-block" onclick="showView('login')">Volver a inicio de sesión</button>`;
+  return false;
+}
+function logout(){ showToast('Sesión cerrada','success'); showView('login'); }
+
+/* ============================================================
+   TOAST
+   ============================================================ */
+function showToast(msg, type){
+  const c = document.getElementById('toast-container');
+  const t = document.createElement('div');
+  t.className = 'toast ' + (type||'');
+  t.innerHTML = (type==='success'?'✅ ':type==='danger'?'⚠️ ':'ℹ️ ') + msg;
+  c.appendChild(t);
+  setTimeout(()=>t.remove(), 3200);
+}
+function openModal(id){ document.getElementById(id).classList.add('open'); }
+function closeModal(id){ document.getElementById(id).classList.remove('open'); }
+
+/* ============================================================
+   RENDER DISPATCH
+   ============================================================ */
+function renderAllForView(id){
+  if(id==='owner-dashboard') renderDashboard();
+  if(id==='owner-pets') renderPetsGrid();
+  if(id==='owner-history') initHistoryFilter();
+  if(id==='owner-vaccines') initVaxFilter();
+  if(id==='owner-appointments') renderAppointmentsView();
+  if(id==='owner-appointment-new') updateApptSummary();
+  if(id==='owner-medications') renderMedications();
+  if(id==='owner-reminders') renderReminders();
+  if(id==='owner-expenses') renderExpenses();
+  if(id==='owner-care') initCareFilter();
+  if(id==='owner-symptom-checker') renderSymptomOptions();
+  if(id==='owner-requests') renderRequests();
+  if(id==='vet-dashboard') renderVetDashboard();
+  if(id==='vet-patients') renderPatients();
+  if(id==='vet-appointments') renderVetAppointments();
+}
+
+function petById(id){ return pets.find(p=>p.id===id); }
+function statusBadge(status){
+  const map = {
+    'pendiente':['badge-warning','Pendiente'],'confirmada':['badge-success','Confirmada'],'atendida':['badge-neutral','Atendida'],'cancelada':['badge-danger','Cancelada'],
+    'aprobado':['badge-success','Aprobado'],'en proceso':['badge-info','En proceso'],'rechazado':['badge-danger','Rechazado'],'cancelado':['badge-danger','Cancelado'],
+    'Al día':['badge-success','Al día'],'Próxima':['badge-warning','Próxima'],'Vencida':['badge-danger','Vencida'],
+    'completado':['badge-success','Completado'],'En curso':['badge-info','En curso'],'Finalizado':['badge-neutral','Finalizado'],'Activa':['badge-success','Activa'],'Activo':['badge-success','Activo'],'En tratamiento':['badge-warning','En tratamiento']
+  };
+  const m = map[status] || ['badge-neutral', status];
+  return `<span class="badge ${m[0]}"><span class="badge-dot"></span>${m[1]}</span>`;
+}
+
+/* ---------------- DASHBOARD ---------------- */
+function onDashPetChange(petId){ state.selectedPetId = petId; renderDashboard(); }
+function renderDashboard(){
+  const sel = document.getElementById('dash-pet-select');
+  sel.innerHTML = pets.map(p=>`<option value="${p.id}" ${p.id===state.selectedPetId?'selected':''}>${p.name} — ${p.breed}</option>`).join('');
+  const pet = petById(state.selectedPetId);
+  document.getElementById('dash-appt-pet').textContent = pet.name;
+
+  const nextAppt = appointments.filter(a=>a.petId===pet.id && (a.status==='pendiente'||a.status==='confirmada')).sort((a,b)=>a.date.localeCompare(b.date))[0];
+  document.getElementById('dash-next-appt').innerHTML = nextAppt ? `
+    <div class="list-row" style="border:none;padding:0;">
+      <div><b>${nextAppt.reason}</b><div style="font-size:12px;color:var(--color-text-muted);">${nextAppt.date} · ${nextAppt.time} · ${nextAppt.vet}</div></div>
+      ${statusBadge(nextAppt.status)}
+    </div>` : emptyState('📅','Sin citas próximas','No tienes citas programadas para esta mascota.','Agendar cita',"showView('owner-appointment-new')");
+
+  const meds = medications.filter(m=>m.petId===pet.id && m.status==='En curso');
+  document.getElementById('dash-next-meds').innerHTML = meds.length ? meds.map(m=>`
+    <div class="list-row" style="border:none;padding:6px 0;">
+      <div><b>${m.name}</b><div style="font-size:12px;color:var(--color-text-muted);">${m.dose} · ${m.freq}</div></div>
+      <span class="badge badge-info"><span class="badge-dot"></span>${m.next}</span>
+    </div>`).join('') : emptyState('💊','Sin medicamentos activos','Esta mascota no tiene tratamientos en curso.');
+
+  const vax = vaccines.filter(v=>v.petId===pet.id).sort((a,b)=>a.status==='Vencida'?-1:1);
+  document.getElementById('dash-next-vax').innerHTML = vax.slice(0,2).map(v=>`
+    <div class="list-row" style="border:none;padding:6px 0;">
+      <div><b>${v.name}</b><div style="font-size:12px;color:var(--color-text-muted);">Próxima: ${v.next}</div></div>
+      ${statusBadge(v.status)}
+    </div>`).join('');
+
+  const rem = reminders.filter(r=>r.pet===pet.name && r.status==='pendiente');
+  document.getElementById('dash-reminders').innerHTML = rem.length ? rem.slice(0,3).map(r=>`
+    <div class="list-row" style="border:none;padding:6px 0;">
+      <div class="check-circle"></div>
+      <div style="flex:1;"><b style="font-size:13px;">${r.desc}</b><div style="font-size:12px;color:var(--color-text-muted);">${r.date} ${r.time!=='—'?'· '+r.time:''}</div></div>
+      <span class="badge badge-neutral">${r.category}</span>
+    </div>`).join('') : emptyState('⏰','Sin recordatorios pendientes','Estás al día con esta mascota.');
+}
+function emptyState(ic,title,desc,btnLabel,btnAction){
+  return `<div class="empty-state" style="padding:20px 6px;"><div class="ic">${ic}</div><h4>${title}</h4><p>${desc}</p>${btnLabel?`<button class="btn btn-primary btn-sm" onclick="${btnAction}">${btnLabel}</button>`:''}</div>`;
+}
+
+/* ---------------- MIS MASCOTAS ---------------- */
+function renderPetsGrid(){
+  document.getElementById('pets-grid').innerHTML = pets.map(p=>`
+    <div class="card">
+      <div style="display:flex;gap:12px;align-items:center;margin-bottom:14px;">
+        <div class="pet-avatar ${p.speciesClass}" style="width:54px;height:54px;font-size:26px;">${p.icon}</div>
+        <div>
+          <div style="font-weight:800;font-size:15px;">${p.name}</div>
+          <div style="font-size:12.5px;color:var(--color-text-muted);">${p.species} · ${p.breed}</div>
+        </div>
+      </div>
+      <div class="list-row" style="padding:6px 0;"><span style="color:var(--color-text-muted);font-size:12.5px;">Edad</span><span style="font-size:12.5px;font-weight:700;">${p.age}</span></div>
+      <div class="list-row" style="padding:6px 0;"><span style="color:var(--color-text-muted);font-size:12.5px;">Estado</span>${statusBadge(p.status)}</div>
+      <button class="btn btn-outline btn-block" style="margin-top:12px;" onclick="openPetProfile('${p.id}')">Ver perfil</button>
+    </div>`).join('');
+}
+function openPetProfile(petId){
+  state.selectedPetId = petId;
+  showView('owner-pet-profile');
+  const p = petById(petId);
+  document.getElementById('petprofile-crumb').textContent = p.name;
+  document.getElementById('petprofile-header').innerHTML = `
+    <div class="pet-avatar ${p.speciesClass}" style="width:74px;height:74px;font-size:34px;">${p.icon}</div>
+    <div style="flex:1;min-width:180px;">
+      <div style="font-size:19px;font-weight:800;">${p.name}</div>
+      <div style="color:var(--color-text-muted);font-size:13px;">${p.species} · ${p.breed} · ${p.sex}</div>
+      <div style="margin-top:6px;">${statusBadge(p.status)}</div>
+    </div>
+    <div style="text-align:right;">
+      <div style="font-size:12px;color:var(--color-text-soft);">Propietario</div>
+      <div style="font-weight:700;">${ownerName}</div>
+    </div>`;
+  document.getElementById('petprofile-physical').innerHTML = `
+    <div class="list-row"><span>Fecha de nacimiento</span><span>${p.birth}</span></div>
+    <div class="list-row"><span>Edad</span><span>${p.age}</span></div>
+    <div class="list-row"><span>Peso</span><span>${p.weight}</span></div>
+    <div class="list-row"><span>Color</span><span>${p.color}</span></div>
+    <div class="list-row"><span>Microchip</span><span class="mono">${p.chip}</span></div>`;
+  document.getElementById('petprofile-health').innerHTML = `
+    <div class="list-row"><span>Alergias</span><span style="text-align:right;max-width:60%;">${p.allergies}</span></div>
+    <div class="list-row"><span>Condiciones médicas</span><span style="text-align:right;max-width:60%;">${p.conditions}</span></div>`;
+}
+
+/* ---------------- HISTORIA CLINICA ---------------- */
+function initHistoryFilter(){
+  const sel = document.getElementById('history-pet-filter');
+  sel.innerHTML = `<option value="all">Todas las mascotas</option>` + pets.map(p=>`<option value="${p.id}" ${p.id===state.selectedPetId?'selected':''}>${p.name}</option>`).join('');
+  renderHistory(sel.value);
+}
+function renderHistory(petId){
+  const list = petId==='all' ? consultations : consultations.filter(c=>c.petId===petId);
+  document.getElementById('history-pet-name').textContent = petId==='all' ? 'todas tus mascotas' : petById(petId).name;
+  const sorted = [...list].sort((a,b)=> b.date.split('/').reverse().join('').localeCompare(a.date.split('/').reverse().join('')));
+  document.getElementById('history-timeline').innerHTML = sorted.length ? sorted.map(c=>`
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:6px;">
+          <div><b>${c.reason}</b> <span style="color:var(--color-text-soft);font-size:12.5px;">· ${petById(c.petId).name}</span></div>
+          <span class="mono" style="font-size:12px;">${c.date}</span>
+        </div>
+        <div style="font-size:13px;color:var(--color-text-muted);margin-bottom:2px;">👩‍⚕️ ${c.vet}</div>
+        <div style="font-size:13px;margin-top:6px;"><b>Diagnóstico:</b> ${c.diagnosis}</div>
+        <div style="font-size:13px;"><b>Tratamiento:</b> ${c.treatment}</div>
+        <button class="btn btn-outline btn-sm" style="margin-top:10px;" onclick="openConsultDetail('${c.id}')">Ver detalle</button>
+      </div>
+    </div>`).join('') : `<div class="card">${emptyState('📋','Sin consultas registradas','Aún no hay historial clínico para esta mascota.')}</div>`;
+}
+function openConsultDetail(id){
+  const c = consultations.find(x=>x.id===id);
+  const p = petById(c.petId);
+  showView('owner-consult-detail');
+  document.getElementById('consult-detail-body').innerHTML = `
+    <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:16px;">
+      <div><div style="font-weight:800;font-size:16px;">${c.reason}</div><div style="color:var(--color-text-muted);font-size:13px;">${p.name} · ${c.vet}</div></div>
+      <span class="mono">${c.date}</span>
+    </div>
+    <div class="divider"></div>
+    <div class="grid grid-2">
+      <div><div class="card-sub" style="margin-bottom:4px;">Síntomas</div><p style="font-size:13.5px;">${c.symptoms}</p></div>
+      <div><div class="card-sub" style="margin-bottom:4px;">Diagnóstico</div><p style="font-size:13.5px;">${c.diagnosis}</p></div>
+      <div><div class="card-sub" style="margin-bottom:4px;">Tratamiento</div><p style="font-size:13.5px;">${c.treatment}</p></div>
+      <div><div class="card-sub" style="margin-bottom:4px;">Observaciones</div><p style="font-size:13.5px;">${c.observations}</p></div>
+    </div>
+    <div class="section-title">Medicamentos formulados</div>
+    ${c.meds.length ? `<div class="table-wrap"><table><thead><tr><th>Medicamento</th><th>Dosis</th><th>Frecuencia</th><th>Duración</th></tr></thead><tbody>${c.meds.map(m=>`<tr><td><b>${m.name}</b></td><td>${m.dose}</td><td>${m.freq}</td><td>${m.duration}</td></tr>`).join('')}</tbody></table></div>` : emptyState('💊','Sin medicamentos','No se formularon medicamentos en esta consulta.')}
+    <div class="section-title">Indicaciones</div>
+    <p style="font-size:13.5px;">${c.indications}</p>`;
+}
+
+/* ---------------- VACUNAS ---------------- */
+function initVaxFilter(){
+  const sel = document.getElementById('vax-pet-filter');
+  sel.innerHTML = `<option value="all">Todas las mascotas</option>` + pets.map(p=>`<option value="${p.id}">${p.name}</option>`).join('');
+  renderVaccines('all');
+}
+function renderVaccines(petId){
+  const list = petId==='all' ? vaccines : vaccines.filter(v=>v.petId===petId);
+  document.getElementById('vax-tbody').innerHTML = list.length ? list.map(v=>`
+    <tr class="tr-hover"><td>${petById(v.petId).name}</td><td><b>${v.name}</b></td><td>${v.applied}</td><td>${v.next}</td><td>${v.vet}</td><td>${statusBadge(v.status)}</td></tr>`).join('')
+    : `<tr><td colspan="6">${emptyState('💉','Sin vacunas registradas','No hay vacunas para mostrar.')}</td></tr>`;
+}
+
+/* ---------------- CITAS ---------------- */
+function renderAppointmentsView(){
+  document.getElementById('calendar-mini').innerHTML = buildCalendar();
+  renderApptTable();
+}
+function buildCalendar(){
+  const dow = ['L','M','X','J','V','S','D'];
+  let html = dow.map(d=>`<div class="dow">${d}</div>`).join('');
+  // August 2026 starts on a Saturday
+  const leading = 5; // Mon-Fri blanks before Sat 1
+  for(let i=0;i<leading;i++) html += `<div class="day muted">${25+i>31?'':''}</div>`;
+  const apptDays = new Set(appointments.map(a=>parseInt(a.date.split('/')[0])));
+  for(let d=1; d<=31; d++){
+    let cls='day';
+    if(d===9) cls+=' today';
+    else if(apptDays.has(d)) cls+=' has-appt';
+    html += `<div class="${cls}">${d}</div>`;
+  }
+  return html;
+}
+function filterAppts(status, btn){
+  state.apptFilter = status;
+  document.querySelectorAll('#appt-filters .tag-chip').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderApptTable();
+}
+function renderApptTable(){
+  let list = [...appointments].sort((a,b)=> a.date.split('/').reverse().join('').localeCompare(b.date.split('/').reverse().join('')));
+  if(state.apptFilter!=='todas') list = list.filter(a=>a.status===state.apptFilter);
+  document.getElementById('appt-tbody').innerHTML = list.length ? list.map(a=>`
+    <tr class="tr-hover">
+      <td><b>${a.date}</b><div style="font-size:12px;color:var(--color-text-muted);">${a.time}</div></td>
+      <td>${petById(a.petId).name}</td><td>${a.vet}</td><td>${a.reason}</td><td>${statusBadge(a.status)}</td>
+      <td>${(a.status==='pendiente'||a.status==='confirmada') ? `<button class="btn btn-ghost btn-sm" onclick="askCancelAppt('${a.id}')">Cancelar</button>` : ''}</td>
+    </tr>`).join('') : `<tr><td colspan="6">${emptyState('📅','Sin citas en este filtro','No se encontraron citas para el filtro seleccionado.')}</td></tr>`;
+}
+let apptToCancel=null;
+function askCancelAppt(id){ apptToCancel=id; openModal('modal-cancel-appt'); }
+function doCancelAppt(){
+  const a = appointments.find(x=>x.id===apptToCancel);
+  if(a) a.status='cancelada';
+  closeModal('modal-cancel-appt');
+  showToast('Cita cancelada correctamente','success');
+  renderApptTable();
+}
+function updateApptSummary(){
+  const pet = document.getElementById('new-appt-pet').value;
+  const date = document.getElementById('new-appt-date').value;
+  const time = document.getElementById('new-appt-time').value;
+  const reason = document.getElementById('new-appt-reason').value;
+  const vet = document.getElementById('new-appt-vet').value;
+  document.getElementById('appt-summary').innerHTML = `
+    <div class="list-row"><span>Mascota</span><b>${pet}</b></div>
+    <div class="list-row"><span>Fecha</span><b>${date||'—'}</b></div>
+    <div class="list-row"><span>Hora</span><b>${time}</b></div>
+    <div class="list-row"><span>Motivo</span><b>${reason}</b></div>
+    <div class="list-row"><span>Veterinario</span><b>${vet}</b></div>`;
+}
+function confirmAppointment(){
+  showToast('Cita agendada correctamente','success');
+  showView('owner-appointments');
+}
+
+/* ---------------- MEDICAMENTOS ---------------- */
+function renderMedications(){
+  document.getElementById('meds-list').innerHTML = medications.length ? medications.map(m=>`
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:10px;">
+        <div><b style="font-size:15px;">${m.name}</b><div style="font-size:12.5px;color:var(--color-text-muted);">${petById(m.petId).name} · ${m.dose} · ${m.freq}</div></div>
+        ${statusBadge(m.status)}
+      </div>
+      <div class="grid grid-4" style="gap:10px;">
+        <div><div class="card-sub" style="margin-bottom:2px;">Inicio</div><div style="font-size:13px;font-weight:700;">${m.start}</div></div>
+        <div><div class="card-sub" style="margin-bottom:2px;">Fin</div><div style="font-size:13px;font-weight:700;">${m.end}</div></div>
+        <div><div class="card-sub" style="margin-bottom:2px;">Duración</div><div style="font-size:13px;font-weight:700;">${m.duration}</div></div>
+        <div><div class="card-sub" style="margin-bottom:2px;">Próxima toma</div><div style="font-size:13px;font-weight:700;color:${m.status==='En curso'?'var(--color-primary)':'var(--color-text-soft)'};">${m.next}</div></div>
+      </div>
+      <div class="divider"></div>
+      <div class="card-sub" style="margin-bottom:2px;">Indicaciones</div>
+      <p style="font-size:13px;">${m.indications}</p>
+    </div>`).join('') : emptyState('💊','Sin medicamentos','No hay medicamentos registrados.');
+}
+
+/* ---------------- RECORDATORIOS ---------------- */
+function filterReminders(cat, btn){
+  state.reminderFilter = cat;
+  document.querySelectorAll('#reminder-filters .tag-chip').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderReminders();
+}
+function renderReminders(){
+  let list = [...reminders];
+  if(state.reminderFilter!=='Todos') list = list.filter(r=>r.category===state.reminderFilter);
+  const catIcon = {'Medicamento':'💊','Vacuna':'💉','Cita':'📅','Compra de alimento':'🛒','Compra de medicamentos':'🛒'};
+  document.getElementById('reminders-list').innerHTML = list.length ? list.map(r=>`
+    <div class="list-row">
+      <div class="check-circle ${r.status==='completado'?'done':''}" onclick="toggleReminder('${r.id}')" style="cursor:pointer;">${r.status==='completado'?'✓':''}</div>
+      <div style="flex:1;">
+        <div style="font-weight:700;font-size:13.5px;${r.status==='completado'?'text-decoration:line-through;color:var(--color-text-soft);':''}">${catIcon[r.category]||'⏰'} ${r.desc}</div>
+        <div style="font-size:12px;color:var(--color-text-muted);">${r.pet} · ${r.date}${r.time!=='—'?' · '+r.time:''}</div>
+      </div>
+      ${r.status==='completado'?statusBadge('completado'):statusBadge('pendiente')}
+    </div>`).join('') : emptyState('⏰','Sin recordatorios','No hay recordatorios en esta categoría.');
+}
+function toggleReminder(id){
+  const r = reminders.find(x=>x.id===id);
+  r.status = r.status==='completado' ? 'pendiente' : 'completado';
+  if(r.status==='completado') showToast('Recordatorio marcado como completado','success');
+  renderReminders();
+}
+
+/* ---------------- GASTOS ---------------- */
+function renderExpenses(){
+  const cat = document.getElementById('expense-cat-filter').value;
+  const pet = document.getElementById('expense-pet-filter').value;
+  let list = [...expenses];
+  if(cat!=='Todas') list = list.filter(e=>e.category===cat);
+  if(pet!=='Todas') list = list.filter(e=>e.pet===pet);
+  const total = list.reduce((s,e)=>s+e.value,0);
+  document.getElementById('expense-total').textContent = '$' + total.toLocaleString('es-CO');
+  document.getElementById('expenses-tbody').innerHTML = list.length ? list.map(e=>`
+    <tr class="tr-hover"><td>${e.date}</td><td>${e.pet}</td><td><span class="badge badge-neutral">${e.category}</span></td><td>${e.desc}</td><td><b>$${e.value.toLocaleString('es-CO')}</b></td></tr>`).join('')
+    : `<tr><td colspan="5">${emptyState('💰','Sin gastos registrados','No se encontraron gastos con este filtro.')}</td></tr>`;
+}
+
+/* ---------------- CUIDADOS ---------------- */
+function initCareFilter(){
+  const sel = document.getElementById('care-pet-filter');
+  sel.innerHTML = `<option value="all">Todas las mascotas</option>` + pets.map(p=>`<option value="${p.name}">${p.name}</option>`).join('');
+  renderCare('all');
+}
+function renderCare(petName){
+  const list = petName==='all' ? careRoutines : careRoutines.filter(c=>c.pet===petName);
+  const icons = {'Alimentación':'🍽️','Paseos':'🚶','Higiene':'🧼','Medicación':'💊','Ejercicio':'🏃','Otros':'📌'};
+  document.getElementById('care-grid').innerHTML = list.length ? list.map(c=>`
+    <div class="card">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+        <div class="ic" style="width:38px;height:38px;border-radius:11px;background:var(--color-primary-light);display:flex;align-items:center;justify-content:center;font-size:18px;">${icons[c.type]||'📌'}</div>
+        <div><b>${c.type}</b><div style="font-size:12px;color:var(--color-text-muted);">${c.pet}</div></div>
+      </div>
+      <div class="list-row"><span>Frecuencia</span><span>${c.freq}</span></div>
+      <div class="list-row"><span>Horario</span><span>${c.schedule}</span></div>
+      <div style="font-size:12.5px;color:var(--color-text-muted);margin-top:8px;">${c.notes}</div>
+    </div>`).join('') : `<div class="card" style="grid-column:1/-1;">${emptyState('🦴','Sin cuidados registrados','Registra rutinas de cuidado para esta mascota.','Registrar cuidado',"openModal('modal-care-new')")}</div>`;
+}
+
+/* ---------------- ORIENTACION SINTOMAS ---------------- */
+let selectedSymptoms = [];
+function renderSymptomOptions(){
+  document.getElementById('symptom-options').innerHTML = symptomOptions.map(s=>`<button type="button" class="tag-chip" onclick="toggleSymptom('${s}',this)">${s}</button>`).join('');
+}
+function toggleSymptom(s, btn){
+  btn.classList.toggle('active');
+  if(selectedSymptoms.includes(s)) selectedSymptoms = selectedSymptoms.filter(x=>x!==s);
+  else selectedSymptoms.push(s);
+}
+function evaluateSymptoms(){
+  const card = document.getElementById('symptom-result-card');
+  if(selectedSymptoms.length===0){
+    card.innerHTML = `<div class="card-title">Resultado</div><div class="alert alert-warning"><span class="ic">⚠️</span><div>Selecciona al menos un síntoma para continuar.</div></div>`;
+    return;
+  }
+  let level, cls, icon, text;
+  if(selectedSymptoms.some(s=>severeSymptoms.includes(s))){
+    level='Atención inmediata'; cls='alert-danger'; icon='🚨';
+    text='Los síntomas seleccionados pueden indicar una situación urgente. Dirígete a la clínica o llama de inmediato.';
+  } else if(selectedSymptoms.some(s=>moderateSymptoms.includes(s))){
+    level='Atención prioritaria'; cls='alert-warning'; icon='⏱️';
+    text='Se recomienda agendar una cita en las próximas 24 horas para evaluación veterinaria.';
+  } else {
+    level='Puede esperar / solicitar cita'; cls='alert-success'; icon='🗓️';
+    text='Puedes agendar una cita regular para revisar estos síntomas con el veterinario.';
+  }
+  card.innerHTML = `
+    <div class="card-title">Resultado</div>
+    <div class="alert ${cls}" style="margin-bottom:14px;"><span class="ic">${icon}</span><div><b>${level}</b><div style="margin-top:4px;">${text}</div></div></div>
+    <div class="card-sub" style="margin-bottom:6px;">Síntomas seleccionados</div>
+    <div class="chip-row" style="margin-bottom:14px;">${selectedSymptoms.map(s=>`<span class="tag-chip">${s}</span>`).join('')}</div>
+    <div class="alert alert-info" style="margin-bottom:14px;"><span class="ic">ℹ️</span><div>Esta orientación es general y no constituye un diagnóstico. Ante cualquier duda, consulta con un veterinario.</div></div>
+    ${level==='Atención inmediata' ? `<button class="btn btn-danger btn-block" onclick="showView('owner-emergency')">Ir a Emergencias</button>` : `<button class="btn btn-primary btn-block" onclick="showView('owner-appointment-new')">Agendar cita</button>`}`;
+}
+
+/* ---------------- SOLICITUDES ---------------- */
+function renderRequests(){
+  document.getElementById('requests-tbody').innerHTML = requests.map(r=>`
+    <tr class="tr-hover"><td>${r.date}</td><td>${r.pet}</td><td>${r.desc}</td><td>${statusBadge(r.status)}</td></tr>`).join('');
+}
+
+/* ---------------- VET: DASHBOARD ---------------- */
+function renderVetDashboard(){
+  const today = vetAppointments.filter(a=>a.date==='09/08/2026');
+  document.getElementById('vet-today-appts').innerHTML = today.length ? today.map(a=>`
+    <div class="list-row">
+      <div class="avatar-round">${a.pet.slice(0,2).toUpperCase()}</div>
+      <div style="flex:1;"><b style="font-size:13.5px;">${a.pet}</b><div style="font-size:12px;color:var(--color-text-muted);">${a.owner} · ${a.reason}</div></div>
+      <div style="text-align:right;"><div class="mono" style="font-size:12px;">${a.time}</div>${statusBadge(a.status)}</div>
+    </div>`).join('') : emptyState('📅','Sin citas hoy','No tienes citas programadas para el día de hoy.');
+}
+
+/* ---------------- VET: PACIENTES ---------------- */
+function renderPatients(){
+  const petQ = (document.getElementById('patient-search-pet')?.value||'').toLowerCase();
+  const ownerQ = (document.getElementById('patient-search-owner')?.value||'').toLowerCase();
+  const spQ = document.getElementById('patient-filter-species')?.value || 'Todas';
+  let list = vetPatients.filter(p =>
+    p.name.toLowerCase().includes(petQ) &&
+    p.owner.toLowerCase().includes(ownerQ) &&
+    (spQ==='Todas' || p.species===spQ)
+  );
+  document.getElementById('patients-tbody').innerHTML = list.length ? list.map(p=>`
+    <tr class="tr-hover">
+      <td><div style="display:flex;align-items:center;gap:10px;"><div class="pet-avatar ${p.class}" style="width:34px;height:34px;font-size:16px;">${p.icon}</div><b>${p.name}</b></div></td>
+      <td>${p.species} · ${p.breed}</td><td>${p.owner}</td><td>${p.lastVisit}</td>
+      <td><button class="btn btn-outline btn-sm" onclick="openVetPatientProfile('${p.id}')">Ver perfil clínico</button></td>
+    </tr>`).join('') : `<tr><td colspan="5">${emptyState('🔍','Sin resultados','No se encontraron pacientes con estos filtros.')}</td></tr>`;
+}
+function openVetPatientProfile(id){
+  const p = vetPatients.find(x=>x.id===id);
+  showView('vet-patient-profile');
+  document.getElementById('vetprofile-crumb').textContent = p.name;
+  document.getElementById('vetprofile-header').innerHTML = `
+    <div class="pet-avatar ${p.class}" style="width:70px;height:70px;font-size:32px;">${p.icon}</div>
+    <div style="flex:1;min-width:180px;"><div style="font-size:18px;font-weight:800;">${p.name}</div><div style="color:var(--color-text-muted);font-size:13px;">${p.species} · ${p.breed}</div></div>
+    <div style="text-align:right;"><div style="font-size:12px;color:var(--color-text-soft);">Propietario</div><div style="font-weight:700;">${p.owner}</div></div>`;
+  const petData = petById(p.id);
+  document.getElementById('vetprofile-health').innerHTML = petData ? `
+    <div class="list-row"><span>Alergias</span><span style="text-align:right;">${petData.allergies}</span></div>
+    <div class="list-row"><span>Condiciones</span><span style="text-align:right;">${petData.conditions}</span></div>` : `<div class="list-row"><span>Alergias</span><span>Ninguna registrada</span></div>`;
+  const nextA = vetAppointments.find(a=>a.pet===p.name && (a.status==='pendiente'||a.status==='confirmada'));
+  document.getElementById('vetprofile-nextappt').innerHTML = nextA ? `
+    <div class="list-row"><span>${nextA.reason}</span>${statusBadge(nextA.status)}</div>
+    <div style="font-size:12.5px;color:var(--color-text-muted);">${nextA.date} · ${nextA.time}</div>` : emptyState('📅','Sin cita próxima','Esta mascota no tiene citas programadas.');
+  const hist = petData ? consultations.filter(c=>c.petId===petData.id) : [];
+  document.getElementById('vetprofile-history').innerHTML = hist.length ? hist.map(c=>`
+    <div class="timeline-item"><div class="timeline-dot"></div><div class="card"><div style="display:flex;justify-content:space-between;"><b>${c.reason}</b><span class="mono" style="font-size:12px;">${c.date}</span></div><div style="font-size:12.5px;color:var(--color-text-muted);">${c.vet} · ${c.diagnosis}</div></div></div>`).join('')
+    : emptyState('📋','Sin historial','No hay consultas registradas para este paciente.');
+  const vx = petData ? vaccines.filter(v=>v.petId===petData.id) : [];
+  document.getElementById('vetprofile-vax').innerHTML = vx.length ? vx.map(v=>`<tr><td><b>${v.name}</b></td><td>${v.applied}</td><td>${v.next}</td><td>${statusBadge(v.status)}</td></tr>`).join('') : `<tr><td colspan="4">${emptyState('💉','Sin vacunas','No hay vacunas registradas.')}</td></tr>`;
+}
+
+/* ---------------- VET: CITAS ---------------- */
+function filterVetAppts(status, btn){
+  state.vetApptFilter = status;
+  btn.parentElement.querySelectorAll('.tag-chip').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderVetAppointments();
+}
+function renderVetAppointments(){
+  let list = [...vetAppointments].sort((a,b)=> a.date.split('/').reverse().join('').localeCompare(b.date.split('/').reverse().join('')));
+  if(state.vetApptFilter!=='todas') list = list.filter(a=>a.status===state.vetApptFilter);
+  document.getElementById('vet-appt-tbody').innerHTML = list.length ? list.map(a=>`
+    <tr class="tr-hover">
+      <td><b>${a.date}</b><div style="font-size:12px;color:var(--color-text-muted);">${a.time}</div></td>
+      <td>${a.pet}</td><td>${a.owner}</td><td>${a.reason}</td><td>${statusBadge(a.status)}</td>
+      <td style="display:flex;gap:6px;flex-wrap:wrap;">
+        ${a.status==='pendiente' ? `<button class="btn btn-outline btn-sm" onclick="setVetApptStatus('${a.id}','confirmada')">Confirmar</button>` : ''}
+        ${a.status==='confirmada' ? `<button class="btn btn-primary btn-sm" onclick="setVetApptStatus('${a.id}','atendida')">Atender</button>` : ''}
+        ${(a.status==='pendiente'||a.status==='confirmada') ? `<button class="btn btn-ghost btn-sm" onclick="setVetApptStatus('${a.id}','cancelada')">Cancelar</button>` : ''}
+      </td>
+    </tr>`).join('') : `<tr><td colspan="6">${emptyState('📅','Sin citas','No hay citas para este filtro.')}</td></tr>`;
+}
+function setVetApptStatus(id, status){
+  const a = vetAppointments.find(x=>x.id===id);
+  a.status = status;
+  const msg = status==='confirmada'?'Cita confirmada':status==='atendida'?'Cita marcada como atendida':'Cita cancelada';
+  showToast(msg,'success');
+  renderVetAppointments();
+}
+
+/* ============================================================
+   INIT
+   ============================================================ */
+showView('login');
+</script>
+</body>
+</html>
