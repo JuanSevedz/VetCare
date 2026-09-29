@@ -1,7 +1,8 @@
 from sqlalchemy import text
+from sqlalchemy.orm import Session
 
 
-def obtener_mascotas(db):
+def obtener_mascotas(db: Session, propietario_id: str):
     query = text("""
         SELECT
             id,
@@ -14,15 +15,23 @@ def obtener_mascotas(db):
             peso,
             microchip
         FROM mascotas
+        WHERE id_propietario = :propietario_id
         ORDER BY id
     """)
 
-    result = db.execute(query)
+    result = db.execute(
+        query,
+        {"propietario_id": propietario_id}
+    )
 
     return [dict(row._mapping) for row in result]
 
 
-def obtener_mascota_por_id(db, mascota_id):
+def obtener_mascota_por_id(
+    db: Session,
+    mascota_id: str,
+    propietario_id: str
+):
     query = text("""
         SELECT
             id,
@@ -36,11 +45,15 @@ def obtener_mascota_por_id(db, mascota_id):
             microchip
         FROM mascotas
         WHERE id = :mascota_id
+          AND id_propietario = :propietario_id
     """)
 
     result = db.execute(
         query,
-        {"mascota_id": mascota_id}
+        {
+            "mascota_id": mascota_id,
+            "propietario_id": propietario_id
+        }
     )
 
     row = result.first()
@@ -49,7 +62,13 @@ def obtener_mascota_por_id(db, mascota_id):
         return None
 
     return dict(row._mapping)
-def crear_mascota(db, mascota):
+
+
+def crear_mascota(
+    db: Session,
+    mascota,
+    propietario_id: str
+):
     query = text("""
         INSERT INTO mascotas (
             id,
@@ -85,12 +104,11 @@ def crear_mascota(db, mascota):
             microchip
     """)
 
-    result = db.execute(
-        query,
-        mascota
-    )
+    datos = mascota.model_dump()
+    datos["id_propietario"] = propietario_id
 
     try:
+        result = db.execute(query, datos)
         db.commit()
     except Exception:
         db.rollback()
@@ -100,7 +118,13 @@ def crear_mascota(db, mascota):
 
     return dict(row._mapping)
 
-def actualizar_mascota(db, mascota_id, datos):
+
+def actualizar_mascota(
+    db: Session,
+    mascota_id: str,
+    propietario_id: str,
+    datos: dict
+):
     campos = []
 
     for campo in datos:
@@ -110,6 +134,7 @@ def actualizar_mascota(db, mascota_id, datos):
         UPDATE mascotas
         SET {", ".join(campos)}
         WHERE id = :mascota_id
+          AND id_propietario = :propietario_id
         RETURNING
             id,
             id_propietario,
@@ -123,6 +148,7 @@ def actualizar_mascota(db, mascota_id, datos):
     """)
 
     datos["mascota_id"] = mascota_id
+    datos["propietario_id"] = propietario_id
 
     result = db.execute(
         query,
@@ -138,16 +164,25 @@ def actualizar_mascota(db, mascota_id, datos):
 
     return dict(row._mapping)
 
-def eliminar_mascota(db, mascota_id):
+
+def eliminar_mascota(
+    db: Session,
+    mascota_id: str,
+    propietario_id: str
+):
     query = text("""
         DELETE FROM mascotas
         WHERE id = :mascota_id
+          AND id_propietario = :propietario_id
         RETURNING id
     """)
 
     result = db.execute(
         query,
-        {"mascota_id": mascota_id}
+        {
+            "mascota_id": mascota_id,
+            "propietario_id": propietario_id
+        }
     )
 
     row = result.first()

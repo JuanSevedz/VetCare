@@ -5,7 +5,8 @@ from sqlalchemy.exc import IntegrityError
 from app.core.exceptions import integrity_error_handler
 from app.database.connection import engine
 from app.routers.mascotas import router as mascotas_router
-
+from app.routers.usuarios import router as usuarios_router
+from app.routers.auth import router as auth_router
 
 app = FastAPI(
     title="VetCare API",
@@ -42,3 +43,5 @@ def database_health_check():
 
 
 app.include_router(mascotas_router)
+app.include_router(usuarios_router)
+app.include_router(auth_router)

@@ -12,8 +12,9 @@ from app.services.mascota_service import (
     buscar_mascota,
     registrar_mascota,
     actualizar_mascota,
-    eliminar_mascota
+    eliminar_mascota,
 )
+from app.core.auth import get_current_user
 
 
 router = APIRouter(
@@ -26,8 +27,14 @@ router = APIRouter(
     "/",
     response_model=list[MascotaResponse]
 )
-def obtener_mascotas(db: Session = Depends(get_db)):
-    return listar_mascotas(db)
+def obtener_mascotas(
+    db: Session = Depends(get_db),
+    usuario=Depends(get_current_user)
+):
+    return listar_mascotas(
+        db,
+        usuario["id"]
+    )
 
 
 @router.get(
@@ -36,9 +43,14 @@ def obtener_mascotas(db: Session = Depends(get_db)):
 )
 def obtener_mascota(
     mascota_id: str,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    usuario=Depends(get_current_user)
 ):
-    mascota = buscar_mascota(db, mascota_id)
+    mascota = buscar_mascota(
+        db,
+        mascota_id,
+        usuario["id"]
+    )
 
     if mascota is None:
         raise HTTPException(
@@ -56,9 +68,15 @@ def obtener_mascota(
 )
 def crear_mascota(
     mascota: MascotaCreate,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    usuario=Depends(get_current_user)
 ):
-    return registrar_mascota(db, mascota)
+    return registrar_mascota(
+        db,
+        mascota,
+        usuario["id"]
+    )
+
 
 @router.put(
     "/{mascota_id}",
@@ -67,12 +85,14 @@ def crear_mascota(
 def modificar_mascota(
     mascota_id: str,
     mascota: MascotaUpdate,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    usuario=Depends(get_current_user)
 ):
     resultado = actualizar_mascota(
         db,
         mascota_id,
-        mascota
+        mascota,
+        usuario["id"]
     )
 
     if resultado is None:
@@ -83,17 +103,20 @@ def modificar_mascota(
 
     return resultado
 
+
 @router.delete(
     "/{mascota_id}",
     status_code=204
 )
 def borrar_mascota(
     mascota_id: str,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    usuario=Depends(get_current_user)
 ):
     resultado = eliminar_mascota(
         db,
-        mascota_id
+        mascota_id,
+        usuario["id"]
     )
 
     if resultado is None:
