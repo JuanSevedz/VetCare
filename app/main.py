@@ -7,6 +7,7 @@ from app.database.connection import engine
 from app.routers.mascotas import router as mascotas_router
 from app.routers.usuarios import router as usuarios_router
 from app.routers.auth import router as auth_router
+from app.routers.citas import router as citas_router
 
 app = FastAPI(
     title="VetCare API",
@@ -45,3 +46,4 @@ def database_health_check():
 app.include_router(mascotas_router)
 app.include_router(usuarios_router)
 app.include_router(auth_router)
+app.include_router(citas_router)
