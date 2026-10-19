@@ -14,5 +14,6 @@ class UsuarioResponse(BaseModel):
     nombre: str
     correo: str
     telefono: str | None = None
+    rol: str
 
     model_config = ConfigDict(from_attributes=True)

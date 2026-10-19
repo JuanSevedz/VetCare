@@ -1,4 +1,5 @@
 from sqlalchemy.orm import Session
+
 from app.core.security import hash_password
 from app.repositories.usuario_repository import (
     obtener_usuarios,
@@ -13,6 +14,8 @@ def listar_usuarios(db: Session):
 
 def buscar_usuario(db: Session, usuario_id: str):
     return obtener_usuario_por_id(db, usuario_id)
+
+
 def registrar_usuario(db: Session, usuario):
     usuario_data = usuario.model_dump()
 

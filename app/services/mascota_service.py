@@ -7,17 +7,17 @@ from app.repositories.mascota_repository import (
 )
 
 
-def listar_mascotas(db, propietario_id: str):
-    return obtener_mascotas(
-        db,
-        propietario_id
-    )
+def listar_mascotas(
+    db,
+    propietario_id: str | None
+):
+    return obtener_mascotas(db, propietario_id)
 
 
 def buscar_mascota(
     db,
     mascota_id: str,
-    propietario_id: str
+    propietario_id: str | None
 ):
     return obtener_mascota_por_id(
         db,
@@ -42,11 +42,9 @@ def actualizar_mascota(
     db,
     mascota_id: str,
     mascota,
-    propietario_id: str
+    propietario_id: str | None
 ):
-    datos = mascota.model_dump(
-        exclude_unset=True
-    )
+    datos = mascota.model_dump(exclude_unset=True)
 
     if not datos:
         return None
@@ -62,7 +60,7 @@ def actualizar_mascota(
 def eliminar_mascota(
     db,
     mascota_id: str,
-    propietario_id: str
+    propietario_id: str | None
 ):
     return eliminar_mascota_repository(
         db,

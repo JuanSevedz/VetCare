@@ -32,3 +32,8 @@ class Usuario(Base):
         String(30),
         nullable=True
     )
+
+    rol: Mapped[str] = mapped_column(
+        String(20),
+        nullable=False
+    )

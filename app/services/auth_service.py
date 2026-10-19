@@ -3,9 +3,7 @@ from sqlalchemy.orm import Session
 
 from app.core.auth import crear_access_token
 from app.core.security import verify_password
-from app.repositories.usuario_repository import (
-    obtener_usuario_por_correo,
-)
+from app.repositories.usuario_repository import obtener_usuario_por_correo
 
 
 def autenticar_usuario(
@@ -30,7 +28,10 @@ def autenticar_usuario(
             detail="Credenciales inválidas"
         )
 
-    token = crear_access_token(usuario["id"])
+    token = crear_access_token(
+        usuario["id"],
+        usuario["rol"]
+    )
 
     return {
         "access_token": token,

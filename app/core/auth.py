@@ -24,13 +24,14 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 60
 security = HTTPBearer()
 
 
-def crear_access_token(usuario_id: str) -> str:
+def crear_access_token(usuario_id: str, rol: str) -> str:
     expire = datetime.now(timezone.utc) + timedelta(
         minutes=ACCESS_TOKEN_EXPIRE_MINUTES
     )
 
     payload = {
         "sub": usuario_id,
+        "rol": rol,
         "exp": expire,
     }
 
@@ -77,3 +78,14 @@ def get_current_user(
         )
 
     return usuario
+
+def require_role(*roles_permitidos: str):
+    def verificar_rol(usuario=Depends(get_current_user)):
+        if usuario["rol"] not in roles_permitidos:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="No tienes permisos para realizar esta operación"
+            )
+        return usuario
+
+    return verificar_rol
