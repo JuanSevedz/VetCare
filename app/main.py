@@ -17,8 +17,8 @@ from app.routers.historias_clinicas import (
 from app.routers.consultas import (
     router as consultas_router,
 )
-
-
+from app.routers.medicamentos import router as medicamentos_router
+from app.routers.vacunas import router as vacunas_router
 app = FastAPI(
     title="VetCare API",
     description="API para la gestión de una clínica veterinaria",
@@ -59,3 +59,5 @@ app.include_router(auth_router)
 app.include_router(citas_router)
 app.include_router(historias_clinicas_router)
 app.include_router(consultas_router)
+app.include_router(medicamentos_router)
+app.include_router(vacunas_router)

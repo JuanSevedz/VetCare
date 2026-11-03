@@ -207,7 +207,7 @@ def modificar_cita(db: Session, cita_id: str, datos, usuario: dict):
     if "id_veterinario" in cambios:
         if not veterinario_existe(db, cambios["id_veterinario"]):
             raise HTTPException(
-                status_code=status.status.HTTP_422_UNPROCESSABLE_CONTENT,
+                status_code=status.HTTP_422_UNPROCESSABLE_CONTENT,
                 detail="El veterinario seleccionado no tiene un perfil válido",
             )
 

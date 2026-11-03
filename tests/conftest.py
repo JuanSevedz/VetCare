@@ -34,12 +34,14 @@ def test_engine():
     engine.dispose()
 
 
+
 @pytest.fixture
 def db_session(test_engine):
     TestingSessionLocal = sessionmaker(
         autocommit=False,
         autoflush=False,
-        bind=test_engine
+        bind=test_engine,
+        join_transaction_mode="create_savepoint",
     )
 
     connection = test_engine.connect()
