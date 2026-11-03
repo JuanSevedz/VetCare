@@ -17,7 +17,7 @@ class CitaCreate(BaseModel):
     id_veterinario: str = Field(min_length=1, max_length=50)
     fecha: date
     hora: str = Field(min_length=1, max_length=20)
-    motivo: str | None = Field(default=None, max_length=300)
+    motivo: str = Field(min_length=1, max_length=300)
 
     @field_validator("hora")
     @classmethod

@@ -2,7 +2,13 @@ from datetime import date
 
 from pydantic import BaseModel, ConfigDict, Field
 
+from typing import Literal
 
+EstadoMedicamento = Literal[
+    "Activo",
+    "Finalizado",
+    "Suspendido",
+]
 class MedicamentoCreate(BaseModel):
     nombre: str = Field(min_length=1, max_length=150)
     dosis: str = Field(min_length=1, max_length=100)
