@@ -24,6 +24,9 @@ from app.routers.gastos import router as gastos_router
 from app.routers.cuidados_rutina import (
     router as cuidados_rutina_router,
 )
+from app.routers.solicitudes_seguimiento import (
+    router as solicitudes_seguimiento_router,
+)
 
 
 app = FastAPI(
@@ -71,3 +74,4 @@ app.include_router(vacunas_router)
 app.include_router(recordatorios_router)
 app.include_router(gastos_router)
 app.include_router(cuidados_rutina_router)
+app.include_router(solicitudes_seguimiento_router)
