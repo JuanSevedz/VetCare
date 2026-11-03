@@ -9,10 +9,28 @@ class CuidadoRutinaCreate(BaseModel):
 
 
 class CuidadoRutinaUpdate(BaseModel):
-    tipo: str | None = Field(default=None, min_length=1, max_length=100)
-    frecuencia: str | None = Field(default=None, min_length=1, max_length=100)
-    horario: str | None = Field(default=None, min_length=1, max_length=50)
-    notas: str | None = Field(default=None, max_length=500)
+    tipo: str | None = Field(
+        default=None,
+        min_length=1,
+        max_length=100,
+    )
+
+    frecuencia: str | None = Field(
+        default=None,
+        min_length=1,
+        max_length=100,
+    )
+
+    horario: str | None = Field(
+        default=None,
+        min_length=1,
+        max_length=50,
+    )
+
+    notas: str | None = Field(
+        default=None,
+        max_length=500,
+    )
 
 
 class CuidadoRutinaResponse(BaseModel):

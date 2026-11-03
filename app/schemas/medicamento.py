@@ -1,14 +1,16 @@
 from datetime import date
+from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from typing import Literal
 
 EstadoMedicamento = Literal[
     "Activo",
     "Finalizado",
     "Suspendido",
 ]
+
+
 class MedicamentoCreate(BaseModel):
     nombre: str = Field(min_length=1, max_length=150)
     dosis: str = Field(min_length=1, max_length=100)
@@ -16,7 +18,7 @@ class MedicamentoCreate(BaseModel):
     duracion: str = Field(min_length=1, max_length=100)
     fecha_inicio: date
     fecha_fin: date
-    estado: str = "Activo"
+    estado: EstadoMedicamento = "Activo"
 
 
 class MedicamentoUpdate(BaseModel):
@@ -42,7 +44,7 @@ class MedicamentoUpdate(BaseModel):
     )
     fecha_inicio: date | None = None
     fecha_fin: date | None = None
-    estado: str | None = None
+    estado: EstadoMedicamento | None = None
 
 
 class MedicamentoResponse(BaseModel):
@@ -54,6 +56,6 @@ class MedicamentoResponse(BaseModel):
     duracion: str
     fecha_inicio: date
     fecha_fin: date
-    estado: str
+    estado: EstadoMedicamento
 
     model_config = ConfigDict(from_attributes=True)

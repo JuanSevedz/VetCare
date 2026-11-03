@@ -4,6 +4,7 @@
 -- Restricciones de integridad
 -- ============================================================
 
+
 -- ============================================================
 -- 1. CAMPOS OBLIGATORIOS
 -- ============================================================
@@ -47,9 +48,9 @@ ALTER TABLE citas
     ALTER COLUMN estado SET NOT NULL;
 
 ALTER TABLE consultas
+    ALTER COLUMN id_cita SET NOT NULL,
     ALTER COLUMN id_historia_clinica SET NOT NULL,
     ALTER COLUMN id_veterinario SET NOT NULL,
-    ALTER COLUMN id_cita SET NOT NULL,
     ALTER COLUMN fecha SET NOT NULL,
     ALTER COLUMN motivo SET NOT NULL,
     ALTER COLUMN diagnostico SET NOT NULL,
@@ -97,7 +98,8 @@ ALTER TABLE gastos
 ALTER TABLE cuidados_rutina
     ALTER COLUMN id_mascota SET NOT NULL,
     ALTER COLUMN tipo SET NOT NULL,
-    ALTER COLUMN frecuencia SET NOT NULL;
+    ALTER COLUMN frecuencia SET NOT NULL,
+    ALTER COLUMN horario SET NOT NULL;
 
 ALTER TABLE solicitudes_seguimiento
     ALTER COLUMN id_propietario SET NOT NULL,
@@ -106,16 +108,19 @@ ALTER TABLE solicitudes_seguimiento
     ALTER COLUMN descripcion SET NOT NULL,
     ALTER COLUMN estado SET NOT NULL;
 
+
 -- ============================================================
 -- 2. RESTRICCIONES UNIQUE
 -- ============================================================
 
 ALTER TABLE usuarios
-    ADD CONSTRAINT uq_usuarios_correo UNIQUE (correo);
+    ADD CONSTRAINT uq_usuarios_correo
+    UNIQUE (correo);
 
 ALTER TABLE personal_veterinario
     ADD CONSTRAINT uq_personal_veterinario_licencia
     UNIQUE (numero_licencia);
+
 
 -- ============================================================
 -- 3. RESTRICCIONES CHECK
@@ -131,15 +136,11 @@ ALTER TABLE mascotas
 
 ALTER TABLE gastos
     ADD CONSTRAINT chk_gastos_valor
-    CHECK (valor >= 0);
+    CHECK (valor > 0);
 
 ALTER TABLE medicamentos_formulados
     ADD CONSTRAINT chk_medicamentos_fechas
-    CHECK (
-        fecha_fin IS NULL
-        OR fecha_inicio IS NULL
-        OR fecha_fin >= fecha_inicio
-    );
+    CHECK (fecha_fin >= fecha_inicio);
 
 ALTER TABLE citas
     ADD CONSTRAINT chk_citas_estado
@@ -170,3 +171,28 @@ ALTER TABLE solicitudes_seguimiento
     CHECK (
         estado IN ('Pendiente', 'En proceso', 'Atendida', 'Cancelada')
     );
+
+
+-- ============================================================
+-- 4. INTEGRIDAD REFERENCIAL COMPUESTA
+-- ============================================================
+
+-- Garantiza que la combinación de mascota y propietario
+-- sea única.
+
+ALTER TABLE mascotas
+    ADD CONSTRAINT uq_mascotas_id_propietario
+    UNIQUE (id, id_propietario);
+
+-- Garantiza que una solicitud de seguimiento solamente
+-- pueda asociarse a una mascota de su propietario.
+
+ALTER TABLE solicitudes_seguimiento
+    ADD CONSTRAINT fk_solicitud_mascota_propietario
+    FOREIGN KEY (id_mascota, id_propietario)
+    REFERENCES mascotas (id, id_propietario);
+
+
+-- ============================================================
+-- FIN DE RESTRICCIONES DE INTEGRIDAD
+-- ============================================================

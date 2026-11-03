@@ -1,7 +1,13 @@
 from datetime import date, time
 from typing import Literal
 
-from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
+from pydantic import (
+    BaseModel,
+    ConfigDict,
+    Field,
+    field_validator,
+    model_validator,
+)
 
 
 EstadoCita = Literal[
@@ -33,11 +39,9 @@ class CitaCreate(BaseModel):
             raise ValueError("La hora debe especificarse en formato HH:MM")
 
         return hora_validada.strftime("%H:%M")
-    
+
     @model_validator(mode="after")
     def validar_fecha_futura(self):
-        from datetime import date
-
         if self.fecha < date.today():
             raise ValueError("La fecha de la cita no puede estar en el pasado")
 
@@ -46,16 +50,21 @@ class CitaCreate(BaseModel):
 
 class CitaUpdate(BaseModel):
     fecha: date | None = None
+
     hora: str | None = Field(
         default=None,
         min_length=1,
         max_length=20,
     )
+
     motivo: str | None = Field(
         default=None,
+        min_length=1,
         max_length=300,
     )
+
     estado: EstadoCita | None = None
+
     id_veterinario: str | None = Field(
         default=None,
         min_length=1,
@@ -87,7 +96,7 @@ class CitaResponse(BaseModel):
     id_veterinario: str
     fecha: date
     hora: str
-    motivo: str | None
+    motivo: str
     estado: EstadoCita
 
     model_config = ConfigDict(from_attributes=True)
