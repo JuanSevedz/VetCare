@@ -4,21 +4,31 @@ from sqlalchemy.exc import IntegrityError
 
 from app.core.exceptions import integrity_error_handler
 from app.database.connection import engine
+
 from app.routers.mascotas import router as mascotas_router
 from app.routers.usuarios import router as usuarios_router
 from app.routers.auth import router as auth_router
 from app.routers.citas import router as citas_router
 
+from app.routers.historias_clinicas import (
+    router as historias_clinicas_router,
+)
+
+from app.routers.consultas import (
+    router as consultas_router,
+)
+
+
 app = FastAPI(
     title="VetCare API",
     description="API para la gestión de una clínica veterinaria",
-    version="1.0.0"
+    version="1.0.0",
 )
 
 
 app.add_exception_handler(
     IntegrityError,
-    integrity_error_handler
+    integrity_error_handler,
 )
 
 
@@ -26,7 +36,7 @@ app.add_exception_handler(
 def health_check():
     return {
         "status": "ok",
-        "service": "VetCare API"
+        "service": "VetCare API",
     }
 
 
@@ -39,7 +49,7 @@ def database_health_check():
     return {
         "status": "ok",
         "database": "vetcare",
-        "query_result": value
+        "query_result": value,
     }
 
 
@@ -47,3 +57,5 @@ app.include_router(mascotas_router)
 app.include_router(usuarios_router)
 app.include_router(auth_router)
 app.include_router(citas_router)
+app.include_router(historias_clinicas_router)
+app.include_router(consultas_router)
