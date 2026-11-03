@@ -1,6 +1,10 @@
 from datetime import date
+from typing import Literal
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
+
+
+SexoMascota = Literal["Macho", "Hembra"]
 
 
 class MascotaCreate(BaseModel):
@@ -8,7 +12,7 @@ class MascotaCreate(BaseModel):
     nombre: str = Field(min_length=1, max_length=100)
     especie: str = Field(min_length=1, max_length=50)
     raza: str | None = Field(default=None, max_length=100)
-    sexo: str | None = Field(default=None, max_length=30)
+    sexo: SexoMascota | None = None
     fecha_nacimiento: date | None = None
     peso: float | None = Field(default=None, gt=0)
     microchip: str | None = Field(default=None, max_length=100)
@@ -18,29 +22,26 @@ class MascotaUpdate(BaseModel):
     nombre: str | None = Field(
         default=None,
         min_length=1,
-        max_length=100
+        max_length=100,
     )
     especie: str | None = Field(
         default=None,
         min_length=1,
-        max_length=50
+        max_length=50,
     )
     raza: str | None = Field(
         default=None,
-        max_length=100
+        max_length=100,
     )
-    sexo: str | None = Field(
-        default=None,
-        max_length=30
-    )
+    sexo: SexoMascota | None = None
     fecha_nacimiento: date | None = None
     peso: float | None = Field(
         default=None,
-        gt=0
+        gt=0,
     )
     microchip: str | None = Field(
         default=None,
-        max_length=100
+        max_length=100,
     )
 
 
@@ -50,11 +51,9 @@ class MascotaResponse(BaseModel):
     nombre: str
     especie: str
     raza: str | None = None
-    sexo: str | None = None
+    sexo: SexoMascota | None = None
     fecha_nacimiento: date | None = None
     peso: float | None = None
     microchip: str | None = None
 
-    model_config = {
-        "from_attributes": True
-    }
+    model_config = ConfigDict(from_attributes=True)
