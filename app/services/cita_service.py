@@ -1,8 +1,6 @@
 import logging
+from datetime import date, time
 
-logger = logging.getLogger(__name__)
-
-from datetime import date
 from fastapi import HTTPException, status
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
@@ -17,12 +15,41 @@ from app.repositories.cita_repository import (
     actualizar_cita as actualizar_cita_repository,
 )
 
+logger = logging.getLogger(__name__)
+
 TRANSICIONES_CITA = {
     "Pendiente": {"Confirmada", "Cancelada"},
     "Confirmada": {"Atendida", "Cancelada"},
     "Atendida": set(),
     "Cancelada": set(),
 }
+
+
+def validar_horario_atencion(fecha: date, hora: str):
+    dia_semana = fecha.weekday()
+    hora_cita = time.fromisoformat(hora)
+
+    if dia_semana == 6:
+        raise HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_CONTENT,
+            detail="VetCare no atiende los domingos",
+        )
+
+    hora_inicio = time(8, 0)
+    hora_fin = time(18, 0)
+
+    if not (hora_inicio <= hora_cita < hora_fin):
+        raise HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_CONTENT,
+            detail="Las citas deben programarse entre las 08:00 y las 18:00",
+        )
+
+    if hora_cita.minute not in {0, 30}:
+        raise HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_CONTENT,
+            detail="Las citas deben programarse en intervalos de 30 minutos",
+        )
+
 
 def listar_citas(db: Session, usuario: dict):
     return obtener_citas(
@@ -32,11 +59,7 @@ def listar_citas(db: Session, usuario: dict):
     )
 
 
-def buscar_cita(
-    db: Session,
-    cita_id: str,
-    usuario: dict,
-):
+def buscar_cita(db: Session, cita_id: str, usuario: dict):
     return obtener_cita_por_id(
         db,
         cita_id,
@@ -45,11 +68,7 @@ def buscar_cita(
     )
 
 
-def registrar_cita(
-    db: Session,
-    datos,
-    usuario: dict,
-):
+def registrar_cita(db: Session, datos, usuario: dict):
     datos_cita = datos.model_dump()
 
     if usuario["rol"] == "PROPIETARIO":
@@ -67,9 +86,15 @@ def registrar_cita(
 
     if not veterinario_existe(db, datos_cita["id_veterinario"]):
         raise HTTPException(
-            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            status_code=status.HTTP_422_UNPROCESSABLE_CONTENT,
             detail="El veterinario seleccionado no tiene un perfil válido",
         )
+
+    validar_horario_atencion(
+        fecha=datos_cita["fecha"],
+        hora=datos_cita["hora"],
+    )
+
     if existe_conflicto_cita(
         db=db,
         id_mascota=datos_cita["id_mascota"],
@@ -86,9 +111,7 @@ def registrar_cita(
         return crear_cita(db, datos_cita)
 
     except IntegrityError as error:
-        logger.exception(
-            "Error de integridad al registrar una cita"
-        )
+        logger.exception("Error de integridad al registrar una cita")
 
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
@@ -96,12 +119,7 @@ def registrar_cita(
         ) from error
 
 
-def modificar_cita(
-    db: Session,
-    cita_id: str,
-    datos,
-    usuario: dict,
-):
+def modificar_cita(db: Session, cita_id: str, datos, usuario: dict):
     cita_actual = buscar_cita(db, cita_id, usuario)
 
     if cita_actual is None:
@@ -111,19 +129,28 @@ def modificar_cita(
         )
 
     cambios = datos.model_dump(exclude_unset=True)
-    if "fecha" in cambios and cambios["fecha"] is not None:
-        if cambios["fecha"] < date.today():
-            raise HTTPException(
-                status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
-                detail="La fecha de la cita no puede estar en el pasado",
-            )
+
     if not cambios:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Debes enviar al menos un campo para actualizar",
         )
 
+    if "fecha" in cambios or "hora" in cambios:
+        validar_horario_atencion(
+            fecha=cambios.get("fecha", cita_actual["fecha"]),
+            hora=cambios.get("hora", cita_actual["hora"]),
+        )
+
+    if "fecha" in cambios and cambios["fecha"] is not None:
+        if cambios["fecha"] < date.today():
+            raise HTTPException(
+                status_code=status.HTTP_422_UNPROCESSABLE_CONTENT,
+                detail="La fecha de la cita no puede estar en el pasado",
+            )
+
     rol = usuario["rol"]
+
     if "estado" in cambios:
         estado_actual = cita_actual["estado"]
         estado_nuevo = cambios["estado"]
@@ -173,16 +200,17 @@ def modificar_cita(
 
         if cambios["estado"] not in {"Confirmada", "Atendida", "Cancelada"}:
             raise HTTPException(
-                status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+                status_code=status.HTTP_422_UNPROCESSABLE_CONTENT,
                 detail="Estado no permitido para el veterinario",
             )
 
     if "id_veterinario" in cambios:
         if not veterinario_existe(db, cambios["id_veterinario"]):
             raise HTTPException(
-                status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+                status_code=status.status.HTTP_422_UNPROCESSABLE_CONTENT,
                 detail="El veterinario seleccionado no tiene un perfil válido",
             )
+
     if {"fecha", "hora", "id_veterinario"} & set(cambios):
         conflicto = existe_conflicto_cita(
             db=db,
@@ -201,6 +229,7 @@ def modificar_cita(
                 status_code=status.HTTP_409_CONFLICT,
                 detail="La mascota o el veterinario ya tiene otra cita activa en esa fecha y hora",
             )
+
     try:
         resultado = actualizar_cita_repository(
             db,
@@ -209,6 +238,7 @@ def modificar_cita(
             usuario["id"],
             cambios,
         )
+
     except IntegrityError as error:
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,

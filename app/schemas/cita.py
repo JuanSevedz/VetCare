@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date, time
 from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
@@ -24,10 +24,15 @@ class CitaCreate(BaseModel):
     def validar_hora(cls, valor: str) -> str:
         valor = valor.strip()
 
-        if not valor:
-            raise ValueError("La hora no puede estar vacía")
+        try:
+            hora_validada = time.fromisoformat(valor)
+        except ValueError:
+            raise ValueError("La hora debe tener un formato válido HH:MM")
 
-        return valor
+        if hora_validada.second != 0 or hora_validada.microsecond != 0:
+            raise ValueError("La hora debe especificarse en formato HH:MM")
+
+        return hora_validada.strftime("%H:%M")
     
     @model_validator(mode="after")
     def validar_fecha_futura(self):
@@ -65,10 +70,15 @@ class CitaUpdate(BaseModel):
 
         valor = valor.strip()
 
-        if not valor:
-            raise ValueError("La hora no puede estar vacía")
+        try:
+            hora_validada = time.fromisoformat(valor)
+        except ValueError:
+            raise ValueError("La hora debe tener un formato válido HH:MM")
 
-        return valor
+        if hora_validada.second != 0 or hora_validada.microsecond != 0:
+            raise ValueError("La hora debe especificarse en formato HH:MM")
+
+        return hora_validada.strftime("%H:%M")
 
 
 class CitaResponse(BaseModel):

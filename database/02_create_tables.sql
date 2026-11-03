@@ -13,9 +13,11 @@ CREATE TABLE usuarios (
     nombre VARCHAR(100),
     correo VARCHAR(150),
     contrasena VARCHAR(255),
-    telefono VARCHAR(30)
+    telefono VARCHAR(30),
+    rol VARCHAR(20) NOT NULL,
+    CONSTRAINT chk_usuarios_rol
+        CHECK (rol IN ('ADMIN', 'VETERINARIO', 'PROPIETARIO'))
 );
-
 
 -- ============================================================
 -- 2. PROPIETARIOS

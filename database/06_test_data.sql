@@ -7,13 +7,13 @@
 -- ============================================================
 -- 1. USUARIOS
 -- ============================================================
-
 INSERT INTO usuarios (
     id,
     nombre,
     correo,
     contrasena,
-    telefono
+    telefono,
+    rol
 )
 VALUES
 (
@@ -21,23 +21,25 @@ VALUES
     'Carlos Rodríguez',
     'carlos.rodriguez@vetcare.test',
     'hash_demo_001',
-    '3001234567'
+    '3001234567',
+    'PROPIETARIO'
 ),
 (
     'USR002',
     'Laura Martínez',
     'laura.martinez@vetcare.test',
     'hash_demo_002',
-    '3017654321'
+    '3017654321',
+    'VETERINARIO'
 ),
 (
     'USR003',
     'Ana Gómez',
     'ana.gomez@vetcare.test',
     'hash_demo_003',
-    '3109876543'
+    '3109876543',
+    'PROPIETARIO'
 );
-
 -- ============================================================
 -- 2. PROPIETARIOS
 -- ============================================================

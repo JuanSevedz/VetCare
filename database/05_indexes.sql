@@ -84,3 +84,18 @@ ON vacunas(fecha_aplicacion);
 -- Consultas por fecha
 CREATE INDEX idx_consultas_fecha
 ON consultas(fecha);
+-- ============================================================
+-- ÍNDICES ÚNICOS PARCIALES PARA EVITAR CONFLICTOS DE CITAS
+-- ============================================================
+
+-- Un veterinario no puede tener dos citas activas
+-- en la misma fecha y hora.
+CREATE UNIQUE INDEX uq_citas_veterinario_horario
+ON citas (id_veterinario, fecha, hora)
+WHERE estado <> 'Cancelada';
+
+-- Una mascota no puede tener dos citas activas
+-- en la misma fecha y hora.
+CREATE UNIQUE INDEX uq_citas_mascota_horario
+ON citas (id_mascota, fecha, hora)
+WHERE estado <> 'Cancelada';
