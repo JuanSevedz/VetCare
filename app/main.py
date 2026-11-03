@@ -20,6 +20,7 @@ from app.routers.consultas import (
 from app.routers.medicamentos import router as medicamentos_router
 from app.routers.vacunas import router as vacunas_router
 from app.routers.recordatorios import router as recordatorios_router
+from app.routers.gastos import router as gastos_router
 
 
 app = FastAPI(
@@ -65,3 +66,4 @@ app.include_router(consultas_router)
 app.include_router(medicamentos_router)
 app.include_router(vacunas_router)
 app.include_router(recordatorios_router)
+app.include_router(gastos_router)
